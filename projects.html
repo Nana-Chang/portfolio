@@ -1,505 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Projects – Nana Chang</title>
-<link rel="stylesheet" href="styles.css" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<style>
-body {
-background: #fff;
-color: #222;
-}
-.project-gallery-bar {
-display: flex;
-flex-direction: row;
-overflow-x: auto;
-gap: 1.2rem;
-padding: 1rem 0 0.5rem 0;
-background: #f8f8f8;
-border-bottom: 1px solid #e0e0e0;
-position: sticky;
-bottom: 0;
-z-index: 10;
-transition: min-height 0.2s;
-}
-.project-gallery-bar.gallery-titles-only .project-thumb img {
-display: none !important;
-}
-.project-thumb {
-min-width: 110px;
-max-width: 140px;
-background: #fff;
-border-radius: 14px;
-box-shadow: 0 2px 8px #eee;
-transition: box-shadow 0.2s, transform 0.2s;
-cursor: pointer;
-display: flex;
-flex-direction: column;
-align-items: center;
-padding-bottom: 0.7rem;
-border: 2px solid transparent;
-}
-.project-thumb.selected, .project-thumb:focus, .project-thumb:hover {
-box-shadow: 0 4px 16px #1DCD9F33;
-border-color: #1DCD9F;
-transform: translateY(-3px) scale(1.04);
-}
-.project-thumb img {
-width: 90px;
-height: 90px;
-object-fit: cover;
-border-radius: 10px 10px 10px 10px;
-background: #fff;
-margin: 0.7rem 0 0 0;
-display: block;
-transition: opacity 0.2s;
-}
-.project-thumb-title {
-font-weight: bold;
-font-size: 0.97em;
-color: #1DCD9F;
-text-align: center;
-margin: 0.5em 0 0.15em 0;
-}
-.project-thumb-btn {
-margin-top: 0.2em;
-color: #fff;
-background: #1DCD9F;
-border: none;
-padding: 0.25em 1.1em;
-border-radius: 6px;
-font-weight: 500;
-font-size: 0.94em;
-cursor: pointer;
-transition: background 0.2s;
-line-height: 1.2em;
-}
-.project-thumb-btn:hover {
-background: #17b890;
-}
-.project-detail-top {
-background: #fff;
-max-width: 900px;
-margin: 2em auto 2em auto;
-border-radius: 18px;
-box-shadow: 0 2px 8px #eee;
-padding: 2em;
-display: flex;
-gap: 2em;
-align-items: flex-start;
-min-height: 350px;
-position: relative;
-}
-.project-detail-imgs {
-flex: 0 0 340px;
-display: flex;
-flex-direction: column;
-gap: 1em;
-justify-content: flex-start;
-}
-.project-detail-imgs img {
-width: 320px;
-      height: 320px;
-      height: auto;
-object-fit: cover;
-border-radius: 12px;
-box-shadow: 0 2px 8px #ddd;
-}
-.project-detail-content {
-flex: 1;
-min-width: 180px;
-}
-.project-detail-title {
-font-size: 2em;
-font-weight: 700;
-color: #1DCD9F;
-margin-bottom: 0.4em;
-}
-.project-detail-date {
-color: #888;
-margin-bottom: 1em;
-font-style: italic;
-}
-.project-detail-section {
-margin-bottom: 1.2em;
-}
-.project-detail-section h4 {
-color: #005599;
-margin-bottom: 0.3em;
-}
-.project-detail-section ul {
-padding-left: 1.1em;
-}
-@media (max-width: 1000px) {
-.project-detail-top {
-flex-direction: column;
-align-items: center;
-gap: 1em;
-}
-.project-detail-imgs img {
-width: 98vw;
-max-width: 400px;
-height: 180px;
-}
-}
-@media (max-width: 700px) {
-.project-detail-top {
-padding: 1em;
-}
-.project-detail-title {
-font-size: 1.3em;
-}
-.project-detail-imgs img {
-height: 110px;
-}
-.project-gallery-bar {
-gap: 0.5rem;
-padding: 0.4rem 0 0.3rem 0;
-}
-.project-thumb {
-min-width: 48vw;
-max-width: 56vw;
-}
-.project-thumb img {
-width: 70px;
-height: 70px;
-}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects – Nana Chang</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: #fff;
+      color: #222;
+    }
+    .project-gallery-bar {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 1.2rem;
+      padding: 1rem 0 0.5rem 0;
+      background: #f8f8f8;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
+      transition: min-height 0.2s;
+    }
+    .project-gallery-bar.gallery-titles-only .project-thumb img {
+      display: none !important;
+    }
+    .project-thumb {
+      min-width: 110px;
+      max-width: 140px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px #eee;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 0.7rem;
+      border: 2px solid transparent;
+    }
+    .project-thumb.selected, .project-thumb:focus, .project-thumb:hover {
+      box-shadow: 0 4px 16px #1DCD9F33;
+      border-color: #1DCD9F;
+      transform: translateY(-3px) scale(1.04);
+    }
+    .project-thumb img {
+      width: 90px;
+      height: auto;          /* Keep aspect ratio */
+      border-radius: 10px 10px 10px 10px;
+      background: #fff;
+      margin: 0.7rem 0 0 0;
+      display: block;
+      transition: opacity 0.2s;
+    }
+    .project-thumb-title {
+      font-weight: bold;
+      font-size: 0.97em;
+      color: #1DCD9F;
+      text-align: center;
+      margin: 0.5em 0 0.15em 0;
+    }
+    .project-thumb-btn {
+      margin-top: 0.2em;
+      color: #fff;
+      background: #1DCD9F;
+      border: none;
+      padding: 0.25em 1.1em;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.94em;
+      cursor: pointer;
+      transition: background 0.2s;
+      line-height: 1.2em;
+    }
+    .project-thumb-btn:hover {
+      background: #17b890;
+    }
+    .project-detail-top {
+      background: #fff;
+      max-width: 900px;
+      margin: 2em auto 2em auto;
+      border-radius: 18px;
+      box-shadow: 0 2px 8px #eee;
+      padding: 2em;
+      display: flex;
+      gap: 2em;
+      align-items: flex-start;
+      min-height: 350px;
+      position: relative;
+    }
+    .project-detail-imgs {
+      flex: 0 0 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      justify-content: flex-start;
+    }
+    .project-detail-imgs img {
+      width: 320px;      /* Fixed width */
+      height: auto;      /* Keep aspect ratio */
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #ddd;
+      display: block;
+    }
+    .project-detail-content {
+      flex: 1;
+      min-width: 180px;
+    }
+    .project-detail-title {
+      font-size: 2em;
+      font-weight: 700;
+      color: #1DCD9F;
+      margin-bottom: 0.4em;
+    }
+    .project-detail-date {
+      color: #888;
+      margin-bottom: 1em;
+      font-style: italic;
+    }
+    .project-detail-section {
+      margin-bottom: 1.2em;
+    }
+    .project-detail-section h4 {
+      color: #005599;
+      margin-bottom: 0.3em;
+    }
+    .project-detail-section ul {
+      padding-left: 1.1em;
+    }
+    @media (max-width: 1000px) {
+      .project-detail-top {
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+      }
+      .project-detail-imgs img {
+        width: 98vw;
+        max-width: 400px;
+        height: auto;
+      }
+    }
+    @media (max-width: 700px) {
+      .project-detail-top {
+        padding: 1em;
+      }
+      .project-detail-title {
+        font-size: 1.3em;
+      }
+      .project-detail-imgs img {
+        width: 70vw;
+        max-width: 250px;
+      }
+      .project-gallery-bar {
+        gap: 0.5rem;
+        padding: 0.4rem 0 0.3rem 0;
+      }
+      .project-thumb {
+        min-width: 48vw;
+        max-width: 56vw;
+      }
+      .project-thumb img {
+        width: 70px;
+      }
+    }
+  </style>
 </head>
 <body>
-<header class="text-center py-4">
-<h1 class="fw-bold" style="color: #1DCD9F;">Projects</h1>
-<p class="lead mb-0">Click a project below to view details above. Scroll left/right to explore more projects.</p>
-</header>
+  <header class="text-center py-4">
+    <h1 class="fw-bold" style="color: #1DCD9F;">Projects</h1>
+    <p class="lead mb-0">Click a project below to view details above. Scroll left/right to explore more projects.</p>
+  </header>
 
-<!-- Top detail section -->
-<div id="project-detail-anchor"></div>
-<div id="project-detail" class="project-detail-top">
-<!-- Populated by JS -->
-</div>
+  <!-- Top detail section -->
+  <div id="project-detail-anchor"></div>
+  <div id="project-detail" class="project-detail-top"></div>
 
-<!-- Gallery bar (scrollable) -->
-<div class="project-gallery-bar" id="project-gallery-bar">
-<!-- Populated by JS -->
-</div>
+  <!-- Gallery bar (scrollable) -->
+  <div class="project-gallery-bar" id="project-gallery-bar"></div>
 
-<script>
-// ---- PROJECT DATA ----
-const projects = [
-{
-key: "eeg-robot",
-title: "EEG Controlled Bipedal Robot",
-date: "9/2024 – Present",
-images: ["assets/eeg_robot1.jpg", "assets/eeg_robot2.jpg"],
-summary: "Integrating EEG signals with deep learning for movement classification and precise motor control.",
-goal: "Integrate EEG signals with a deep learning model for movement classification and precise motor control.",
-achievements: [
-"Optimized robot structure with CAD design through SolidWorks for enhanced stability and mobility.",
-"3D printed components for prototyping.",
-"PCB design for the overcurrent protection circuit, ensuring reliable power management."
-]
-},
-{
-key: "exoskeleton-sim",
-title: "Exoskeleton Validation with Simulation",
-date: "5/2025 – Present",
-images: ["assets/exo1.jpg"],
-summary: "Validated exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
-goal: "Validate exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
-achievements: [
-"Processed marker-based motion data from lifting activities to quantify joint kinematics and dynamics.",
-"Simulated the assistance of exoskeleton and analyzed muscle activation reduction.",
-"Researched and troubleshooted solutions to optimize exoskeleton for ergonomic performance."
-]
-},
-{
-key: "swing-footrest",
-title: "Adaptive Swing Footrest for Wheelchair",
-date: "1/2025 – 4/2025",
-images: ["assets/footrest1.jpg", "assets/footrest2.jpg", "assets/footrest3.jpg"],
-summary: "Designed a footrest mechanism supporting natural leg motion and user comfort.",
-goal: "Design a footrest mechanism that supports natural leg motion while ensuring stability and user comfort.",
-achievements: [
-"Designed the footrest mechanism using SolidWorks and fabricated components through 3D printing.",
-"Conducted iterative testing and Failure Modes and Effects Analysis.",
-"Integrated material selection and cost analysis to enhance durability, recyclability, and affordability."
-]
-},
-{
-key: "bracket-gen-design",
-title: "Generative Design of Bracket",
-date: "4/2025",
-images: ["assets/bracket1.jpg", "assets/bracket2.jpg", "assets/bracket3.jpg"],
-summary: "Redesigned an aircraft bracket for additive manufacturing to reduce weight and waste.",
-goal: "Redesign a Ti-6Al-4V aircraft bracket for additive manufacturing to reduce weight and material waste.",
-achievements: [
-"Conducted generative design and stress analysis in Fusion 360 under defined load cases.",
-"Selected optimal design based on factor of safety and von Mises stress vs. mass.",
-"Improved printability and reduced waste by optimizing for 3D printing and high-volume production."
-]
-},
-{
-key: "emg-processing",
-title: "EMG Processing & Circuit Simulation",
-date: "1/2025",
-images: ["assets/emg1.jpg", "assets/emg2.jpg"],
-summary: "Acquired and processed EMG signals for real-time device control.",
-goal: "Acquire and process EMG signals for real-time device control using MATLAB and Arduino.",
-achievements: [
-"Acquired and processed EMG signals using MATLAB and Arduino for muscle activation control.",
-"Demonstrated real-time EMG-base device control of LEDs and servo motors.",
-"Designed and simulated an EMG processing circuit in LTSpice, optimizing signal clarity with amplifiers and filters."
-]
-},
-{
-key: "sem-segmentation",
-title: "Deep Learning SEM Image Segmentation",
-date: "4/2024 – 8/2024",
-images: ["assets/sem1.jpg", "assets/sem2.jpg"],
-summary: "Automated segmentation of types of lacunae in trabecular bone SEM images.",
-goal: "Automate the segmentation of types of lacunae in trabecular bone SEM images.",
-achievements: [
-"Trained and optimized U-Net model in Dragonfly.",
-"Evaluated model performance in MATLAB, achieving 98% accuracy and 71% Dice coefficient.",
-"Presented findings to academic peers through meetings and poster sessions."
-]
-},
-{
-key: "resin-bone",
-title: "3D Resin Printing of Bone Structures",
-date: "4/2024 – 8/2024",
-images: ["assets/boneprint1.jpg", "assets/boneprint2.jpg"],
-summary: "Developed a reliable method to resin 3D print trabecular bone structures.",
-goal: "Develop a reliable method to resin 3D print trabecular bone structures for future mechanical testing.",
-achievements: [
-"Processed microCT data and created printable STL models using SolidWorks and AnyCubic software.",
-"Optimized resin print parameters to improve structural fidelity across bone types.",
-"Demonstrated high geometric fidelity through image registration and voxel-wise analysis."
-]
-},
-{
-key: "cell-aspiration",
-title: "Automation of Cell Aspiration",
-date: "1/2024 – 4/2024",
-images: ["assets/aspiration1.jpg", "assets/aspiration2.jpg"],
-summary: "Developed a high precision pressure control device for accurate cell aspiration.",
-goal: "Develop a high precision negative pressure control device for accurate cell aspiration.",
-achievements: [
-"Designed sensing circuit using instrumentation amplifier and pressure sensor for accurate pressure readings.",
-"Verified and validated prototype through comprehensive mechanical, electrical, and code assessments.",
-"Assessed risk, failure modes, and conducted requirements testing to ensure system reliability."
-]
-},
-{
-key: "motion-imu",
-title: "Motion Monitoring with IMU",
-date: "1/2024 – 4/2024",
-images: ["assets/imu1.jpg", "assets/imu2.jpg"],
-summary: "Analyzed cycling motion consistency at different speeds and quantified performance.",
-goal: "Analyze cycling motion consistency at different speeds and quantify performance.",
-achievements: [
-"Analyzed cycling motion consistency at various speeds using MATLAB.",
-"Quantified performance by filtering and standardizing data to calculate root mean square error.",
-"Collected body segment locomotion data with Inertial Measurement Units (IMUs) on smartphones."
-]
-},
-{
-key: "deadlift-augmentation",
-title: "Deadlift Augmentation Device",
-date: "9/2023 – 12/2023",
-images: ["assets/deadlift1.jpg", "assets/deadlift2.jpg"],
-summary: "Conducted a comprehensive joint moment analysis of deadlifts to improve posture and prevent injury.",
-goal: "Conduct a comprehensive joint moment analysis of deadlifts to improve posture and prevent injury.",
-achievements: [
-"Directed joint moment analysis in MATLAB, using marker-less motion capture via OpenPose.",
-"Identified the hip joint as bearing the highest load, with a peak moment of 730 Nm when lifting 65lb.",
-"Engineered a wearable sensor vest for posture improvement and injury prevention data collection."
-]
-},
-{
-key: "impact-detect",
-title: "Impact Detecting Device",
-date: "1/2023",
-images: ["assets/impact1.jpg"],
-summary: "Designed a sensor-based system to detect and understand whiplash injuries through head and neck kinetic impact data.",
-goal: "Design a sensor-based system to detect and understand whiplash injuries through head and neck kinetic impact data.",
-achievements: [
-"Conducted in-depth research on biomechanics to inform system development.",
-"Designed sensor-based methods to collect head and neck kinetic impact data for injury analysis.",
-"Collaborated on the overall device design to detect and understand whiplash."
-]
-},
-{
-key: "bike-lane",
-title: "Bike Lane Route",
-date: "10/2022",
-images: ["assets/bikelane1.jpg", "assets/bikelane2.jpg"],
-summary: "Evaluated and selected the optimal bike lane route in Vancouver based on stakeholder needs.",
-goal: "Evaluate and select the optimal bike lane route in Vancouver based on multiple criteria to meet stakeholder needs.",
-achievements: [
-"Collaborated with a team to evaluate and select the best bike lane routes using data analysis and stakeholder engagement.",
-"Determined the optimal route by balancing the needs of the stakeholders, ensuring robust decision-making."
-]
-},
-{
-key: "cardboard-chair",
-title: "Cardboard Chair Design",
-date: "9/2022",
-images: ["assets/cardboard1.jpg", "assets/cardboard2.jpg"],
-summary: "Designed a functional, minimalistic, and compact cardboard chair based on stakeholder needs.",
-goal: "Design a functional, minimalistic, and compact cardboard chair based on stakeholder needs.",
-achievements: [
-"Collaborated on the design of the cardboard chair, incorporating feedback and ideas from stakeholders.",
-"Analyzed stakeholder needs to generate prototype solutions that met design and usability criteria.",
-"Utilized prototyping techniques to create a physical model for evaluation and refinement."
-]
-}
-];
+  <script>
+    // ---- PROJECT DATA ----
+    const projects = [
+      {
+        key: "eeg-robot",
+        title: "EEG Controlled Bipedal Robot",
+        date: "9/2024 – Present",
+        images: ["assets/eeg_robot1.jpg", "assets/eeg_robot2.jpg"],
+        summary: "Integrating EEG signals with deep learning for movement classification and precise motor control.",
+        goal: "Integrate EEG signals with a deep learning model for movement classification and precise motor control.",
+        achievements: [
+          "Optimized robot structure with CAD design through SolidWorks for enhanced stability and mobility.",
+          "3D printed components for prototyping.",
+          "PCB design for the overcurrent protection circuit, ensuring reliable power management."
+        ]
+      },
+      {
+        key: "exoskeleton-sim",
+        title: "Exoskeleton Validation with Simulation",
+        date: "5/2025 – Present",
+        images: ["assets/exo1.jpg"],
+        summary: "Validated exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
+        goal: "Validate exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
+        achievements: [
+          "Processed marker-based motion data from lifting activities to quantify joint kinematics and dynamics.",
+          "Simulated the assistance of exoskeleton and analyzed muscle activation reduction.",
+          "Researched and troubleshooted solutions to optimize exoskeleton for ergonomic performance."
+        ]
+      },
+      {
+        key: "swing-footrest",
+        title: "Adaptive Swing Footrest for Wheelchair",
+        date: "1/2025 – 4/2025",
+        images: ["assets/footrest1.jpg", "assets/footrest2.jpg", "assets/footrest3.jpg"],
+        summary: "Designed a footrest mechanism supporting natural leg motion and user comfort.",
+        goal: "Design a footrest mechanism that supports natural leg motion while ensuring stability and user comfort.",
+        achievements: [
+          "Designed the footrest mechanism using SolidWorks and fabricated components through 3D printing.",
+          "Conducted iterative testing and Failure Modes and Effects Analysis.",
+          "Integrated material selection and cost analysis to enhance durability, recyclability, and affordability."
+        ]
+      },
+      {
+        key: "bracket-gen-design",
+        title: "Generative Design of Bracket",
+        date: "4/2025",
+        images: ["assets/bracket1.jpg", "assets/bracket2.jpg", "assets/bracket3.jpg"],
+        summary: "Redesigned an aircraft bracket for additive manufacturing to reduce weight and waste.",
+        goal: "Redesign a Ti-6Al-4V aircraft bracket for additive manufacturing to reduce weight and material waste.",
+        achievements: [
+          "Conducted generative design and stress analysis in Fusion 360 under defined load cases.",
+          "Selected optimal design based on factor of safety and von Mises stress vs. mass.",
+          "Improved printability and reduced waste by optimizing for 3D printing and high-volume production."
+        ]
+      },
+      {
+        key: "emg-processing",
+        title: "EMG Processing & Circuit Simulation",
+        date: "1/2025",
+        images: ["assets/emg1.jpg", "assets/emg2.jpg"],
+        summary: "Acquired and processed EMG signals for real-time device control.",
+        goal: "Acquire and process EMG signals for real-time device control using MATLAB and Arduino.",
+        achievements: [
+          "Acquired and processed EMG signals using MATLAB and Arduino for muscle activation control.",
+          "Demonstrated real-time EMG-base device control of LEDs and servo motors.",
+          "Designed and simulated an EMG processing circuit in LTSpice, optimizing signal clarity with amplifiers and filters."
+        ]
+      },
+      {
+        key: "sem-segmentation",
+        title: "Deep Learning SEM Image Segmentation",
+        date: "4/2024 – 8/2024",
+        images: ["assets/sem1.jpg", "assets/sem2.jpg"],
+        summary: "Automated segmentation of types of lacunae in trabecular bone SEM images.",
+        goal: "Automate the segmentation of types of lacunae in trabecular bone SEM images.",
+        achievements: [
+          "Trained and optimized U-Net model in Dragonfly.",
+          "Evaluated model performance in MATLAB, achieving 98% accuracy and 71% Dice coefficient.",
+          "Presented findings to academic peers through meetings and poster sessions."
+        ]
+      },
+      {
+        key: "resin-bone",
+        title: "3D Resin Printing of Bone Structures",
+        date: "4/2024 – 8/2024",
+        images: ["assets/boneprint1.jpg", "assets/boneprint2.jpg"],
+        summary: "Developed a reliable method to resin 3D print trabecular bone structures.",
+        goal: "Develop a reliable method to resin 3D print trabecular bone structures for future mechanical testing.",
+        achievements: [
+          "Processed microCT data and created printable STL models using SolidWorks and AnyCubic software.",
+          "Optimized resin print parameters to improve structural fidelity across bone types.",
+          "Demonstrated high geometric fidelity through image registration and voxel-wise analysis."
+        ]
+      },
+      {
+        key: "cell-aspiration",
+        title: "Automation of Cell Aspiration",
+        date: "1/2024 – 4/2024",
+        images: ["assets/aspiration1.jpg", "assets/aspiration2.jpg"],
+        summary: "Developed a high precision pressure control device for accurate cell aspiration.",
+        goal: "Develop a high precision negative pressure control device for accurate cell aspiration.",
+        achievements: [
+          "Designed sensing circuit using instrumentation amplifier and pressure sensor for accurate pressure readings.",
+          "Verified and validated prototype through comprehensive mechanical, electrical, and code assessments.",
+          "Assessed risk, failure modes, and conducted requirements testing to ensure system reliability."
+        ]
+      },
+      {
+        key: "motion-imu",
+        title: "Motion Monitoring with IMU",
+        date: "1/2024 – 4/2024",
+        images: ["assets/imu1.jpg", "assets/imu2.jpg"],
+        summary: "Analyzed cycling motion consistency at different speeds and quantified performance.",
+        goal: "Analyze cycling motion consistency at different speeds and quantify performance.",
+        achievements: [
+          "Analyzed cycling motion consistency at various speeds using MATLAB.",
+          "Quantified performance by filtering and standardizing data to calculate root mean square error.",
+          "Collected body segment locomotion data with Inertial Measurement Units (IMUs) on smartphones."
+        ]
+      },
+      {
+        key: "deadlift-augmentation",
+        title: "Deadlift Augmentation Device",
+        date: "9/2023 – 12/2023",
+        images: ["assets/deadlift1.jpg", "assets/deadlift2.jpg"],
+        summary: "Conducted a comprehensive joint moment analysis of deadlifts to improve posture and prevent injury.",
+        goal: "Conduct a comprehensive joint moment analysis of deadlifts to improve posture and prevent injury.",
+        achievements: [
+          "Directed joint moment analysis in MATLAB, using marker-less motion capture via OpenPose.",
+          "Identified the hip joint as bearing the highest load, with a peak moment of 730 Nm when lifting 65lb.",
+          "Engineered a wearable sensor vest for posture improvement and injury prevention data collection."
+        ]
+      },
+      {
+        key: "impact-detect",
+        title: "Impact Detecting Device",
+        date: "1/2023",
+        images: ["assets/impact1.jpg"],
+        summary: "Designed a sensor-based system to detect and understand whiplash injuries through head and neck kinetic impact data.",
+        goal: "Design a sensor-based system to detect and understand whiplash injuries through head and neck kinetic impact data.",
+        achievements: [
+          "Conducted in-depth research on biomechanics to inform system development.",
+          "Designed sensor-based methods to collect head and neck kinetic impact data for injury analysis.",
+          "Collaborated on the overall device design to detect and understand whiplash."
+        ]
+      },
+      {
+        key: "bike-lane",
+        title: "Bike Lane Route",
+        date: "10/2022",
+        images: ["assets/bikelane1.jpg", "assets/bikelane2.jpg"],
+        summary: "Evaluated and selected the optimal bike lane route in Vancouver based on stakeholder needs.",
+        goal: "Evaluate and select the optimal bike lane route in Vancouver based on multiple criteria to meet stakeholder needs.",
+        achievements: [
+          "Collaborated with a team to evaluate and select the best bike lane routes using data analysis and stakeholder engagement.",
+          "Determined the optimal route by balancing the needs of the stakeholders, ensuring robust decision-making."
+        ]
+      },
+      {
+        key: "cardboard-chair",
+        title: "Cardboard Chair Design",
+        date: "9/2022",
+        images: ["assets/cardboard1.jpg", "assets/cardboard2.jpg"],
+        summary: "Designed a functional, minimalistic, and compact cardboard chair based on stakeholder needs.",
+        goal: "Design a functional, minimalistic, and compact cardboard chair based on stakeholder needs.",
+        achievements: [
+          "Collaborated on the design of the cardboard chair, incorporating feedback and ideas from stakeholders.",
+          "Analyzed stakeholder needs to generate prototype solutions that met design and usability criteria.",
+          "Utilized prototyping techniques to create a physical model for evaluation and refinement."
+        ]
+      }
+    ];
 
-// ---- RENDER PROJECT DETAIL ----
-function renderProjectDetail(idx) {
-const prj = projects[idx];
-if (!prj) return;
-let imgs = '';
-if (prj.images && prj.images.length > 0) {
-imgs = prj.images.map(img =>
-`<img src="${img}" alt="${prj.title} image" />`
-).join('');
-}
-document.getElementById('project-detail').innerHTML = `
-       <div class="project-detail-imgs">${imgs}</div>
-       <div class="project-detail-content">
-         <div class="project-detail-title">${prj.title}</div>
-         <div class="project-detail-date">${prj.date}</div>
-         <div class="project-detail-section">
-           <h4>Project Goal</h4>
-           <p>${prj.goal}</p>
-         </div>
-         <div class="project-detail-section">
-           <h4>Key Achievements</h4>
-           <ul>${prj.achievements.map(item => `<li>${item}</li>`).join('')}</ul>
-         </div>
-       </div>
-     `;
-// highlight selected
-document.querySelectorAll('.project-thumb').forEach((el, i) => {
-if (i === idx) el.classList.add('selected');
-else el.classList.remove('selected');
-});
-// Scroll to detail anchor on mobile
-if(window.innerWidth < 800) {
-document.getElementById('project-detail-anchor').scrollIntoView({behavior: 'smooth'});
-}
-}
+    // ---- RENDER PROJECT DETAIL ----
+    function renderProjectDetail(idx) {
+      const prj = projects[idx];
+      if (!prj) return;
+      let imgs = '';
+      if (prj.images && prj.images.length > 0) {
+        imgs = prj.images.map(img =>
+          `<img src="${img}" alt="${prj.title} image" />`
+        ).join('');
+      }
+      document.getElementById('project-detail').innerHTML = `
+        <div class="project-detail-imgs">${imgs}</div>
+        <div class="project-detail-content">
+          <div class="project-detail-title" id="${prj.key}">${prj.title}</div>
+          <div class="project-detail-date">${prj.date}</div>
+          <div class="project-detail-section">
+            <h4>Project Goal</h4>
+            <p>${prj.goal}</p>
+          </div>
+          <div class="project-detail-section">
+            <h4>Key Achievements</h4>
+            <ul>${prj.achievements.map(item => `<li>${item}</li>`).join('')}</ul>
+          </div>
+        </div>
+      `;
+      // highlight selected
+      document.querySelectorAll('.project-thumb').forEach((el, i) => {
+        if (i === idx) el.classList.add('selected');
+        else el.classList.remove('selected');
+      });
+      // Scroll to detail anchor on mobile
+      if(window.innerWidth < 800) {
+        document.getElementById('project-detail-anchor').scrollIntoView({behavior: 'smooth'});
+      }
+    }
 
-// ---- RENDER PROJECT GALLERY ----
-function renderProjectGallery(selectedIdx=0) {
-const gallery = document.getElementById('project-gallery-bar');
-gallery.innerHTML = '';
-projects.forEach((prj, idx) => {
-const thumb = document.createElement('div');
-thumb.className = 'project-thumb' + (idx===selectedIdx?' selected':'');
-thumb.tabIndex = 0;
-thumb.innerHTML = `
-         <img src="${prj.images[0]}" alt="${prj.title} thumbnail" style="width:100px; height:100px;aspect-ratio:1/1;"/>
-         <div class="project-thumb-title" style="font-size:0.85em;">${prj.title}</div>
-       `;
-thumb.onclick = () => {
-renderProjectDetail(idx);
-};
-thumb.onkeydown = (e) => {
-if (e.key === 'Enter' || e.key === ' ') {
-renderProjectDetail(idx);
-}
-};
-gallery.appendChild(thumb);
-});
-}
+    // ---- RENDER PROJECT GALLERY ----
+    function renderProjectGallery(selectedIdx=0) {
+      const gallery = document.getElementById('project-gallery-bar');
+      gallery.innerHTML = '';
+      projects.forEach((prj, idx) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'project-thumb' + (idx===selectedIdx?' selected':'');
+        thumb.tabIndex = 0;
+        thumb.innerHTML = `
+          <img src="${prj.images[0]}" alt="${prj.title} thumbnail" />
+          <div class="project-thumb-title" style="font-size:0.85em;">${prj.title}</div>
+        `;
+        thumb.onclick = () => {
+          renderProjectDetail(idx);
+          history.replaceState(null, null, `#${prj.key}`);
+        };
+        thumb.onkeydown = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            renderProjectDetail(idx);
+            history.replaceState(null, null, `#${prj.key}`);
+          }
+        };
+        gallery.appendChild(thumb);
+      });
+    }
 
-// ---- INIT PAGE ----
-renderProjectDetail(0);
-renderProjectGallery(0);
+    // ---- INIT PAGE ----
+    function getProjectIdxFromHash() {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash) return 0;
+      const idx = projects.findIndex(prj => prj.key === hash);
+      return idx >= 0 ? idx : 0;
+    }
 
-// ---- GALLERY CLICKER TRIGGER ----
-(function() {
-const bar = document.getElementById('project-gallery-bar');
-let isTitlesOnly = false;
-function handleMouseMove(e) {
-const y = e.clientY || 0;
-const vh = window.innerHeight;
-if (y > vh * 0.8) {
-// Show full gallery
-if (isTitlesOnly) {
-bar.classList.remove('gallery-titles-only');
-isTitlesOnly = false;
-}
-} else {
-// Only show titles
-if (!isTitlesOnly) {
-bar.classList.add('gallery-titles-only');
-isTitlesOnly = true;
-}
-}
-}
-
-// Default to titles only on load
-bar.classList.add('gallery-titles-only');
-isTitlesOnly = true;
-
-// Only run on devices with mouse
-if (window.matchMedia("(pointer: fine)").matches) {
-document.addEventListener('mousemove', handleMouseMove);
-} else {
-// Always show both on touch devices
-bar.classList.remove('gallery-titles-only');
-}
-})();
-</script>
-</body>
-</html>
-</html>
-
-// ---- Hash-based Project Loader ----
-function loadProjectFromHash() {
-  const hash = window.location.hash.replace('#', '');
-  if (hash) {
-    const idx = projects.findIndex(prj => prj.key === hash);
-    if (idx !== -1) {
+    function showInitialProject() {
+      const idx = getProjectIdxFromHash();
       renderProjectDetail(idx);
       renderProjectGallery(idx);
-      return;
+      setTimeout(() => {
+        // scroll to detail section if deep linked
+        if(window.location.hash && window.innerWidth > 800) {
+          document.getElementById('project-detail-anchor').scrollIntoView({behavior: 'smooth'});
+        }
+      }, 100);
     }
-  }
-  // Default: show first project
-  renderProjectDetail(0);
-  renderProjectGallery(0);
-}
-window.addEventListener('hashchange', loadProjectFromHash);
-loadProjectFromHash();
+    showInitialProject();
 
-// ---- RENDER PROJECT GALLERY ----
-function renderProjectGallery(selectedIdx=0) {
-  const gallery = document.getElementById('project-gallery-bar');
-  gallery.innerHTML = '';
-  projects.forEach((prj, idx) => {
-    const thumb = document.createElement('div');
-    thumb.className = 'project-thumb' + (idx===selectedIdx?' selected':'');
-    thumb.tabIndex = 0;
-    thumb.innerHTML = `
-      <img src="${prj.images[0]}" alt="${prj.title} thumbnail"/>
-      <div class="project-thumb-title" style="font-size:0.85em;">${prj.title}</div>
-    `;
-    thumb.onclick = () => {
-      window.location.hash = prj.key;
-    };
-    thumb.onkeydown = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        window.location.hash = prj.key;
+    // ---- Listen for hash changes ----
+    window.addEventListener('hashchange', showInitialProject);
+
+    // ---- GALLERY CLICKER TRIGGER ----
+    (function() {
+      const bar = document.getElementById('project-gallery-bar');
+      let isTitlesOnly = false;
+      function handleMouseMove(e) {
+        const y = e.clientY || 0;
+        const vh = window.innerHeight;
+        if (y > vh * 0.8) {
+          // Show full gallery
+          if (isTitlesOnly) {
+            bar.classList.remove('gallery-titles-only');
+            isTitlesOnly = false;
+          }
+        } else {
+          // Only show titles
+          if (!isTitlesOnly) {
+            bar.classList.add('gallery-titles-only');
+            isTitlesOnly = true;
+          }
+        }
       }
-    };
-    gallery.appendChild(thumb);
-  });
-}
+      // Default to titles only on load
+      bar.classList.add('gallery-titles-only');
+      isTitlesOnly = true;
+      // Only run on devices with mouse
+      if (window.matchMedia("(pointer: fine)").matches) {
+        document.addEventListener('mousemove', handleMouseMove);
+      } else {
+        // Always show both on touch devices
+        bar.classList.remove('gallery-titles-only');
+      }
+    })();
+  </script>
+</body>
+</html>
