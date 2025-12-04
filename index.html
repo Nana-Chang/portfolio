@@ -32,18 +32,14 @@
       a:hover { color: #17b890; }
       #about-img { filter: none !important; }
 
-      /* Modern Carousel Arrow Styles */
+      /* --- Projects Carousel Arrow Styles --- */
       .projects-carousel-arrows {
         position: absolute;
         top: 0; left: 0; height: 100%; width: 100%;
-        pointer-events: none;
-        z-index: 13;
-        /* Don't use flex: use absolute for left/right! */
+        pointer-events: none; /* only buttons are clickable */
+        z-index: 14;
       }
       .project-arrow-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
         pointer-events: auto;
         background: transparent;
         border: none;
@@ -51,49 +47,34 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
         padding: 0;
         cursor: pointer;
+        transition: filter 0.18s, background 0.2s;
         height: 56%;
-        min-height: 70px;
-        max-height: 200px;
-        width: 42px;
+        min-height: 60px;
+        max-height: 160px;
+        width: 44px;
         border-radius: 20px;
-        /* Spanning left/right edges (farther apart) */
-        transition: 
-          filter 0.21s, 
-          left 0.35s cubic-bezier(.7,-0.2,.35,1.2),
-          right 0.35s cubic-bezier(.7,-0.2,.35,1.2),
-          box-shadow 0.3s,
-          background 0.18s;
-        box-shadow: 0 0 0 transparent;
-        /* transition for click/tap effect */
       }
       .project-arrow-btn:active,
-      .project-arrow-btn.clicked {
-        box-shadow: 0 4px 24px #1DCD9F55, 0 0px 0px #fff;
-        background: #e6fcf7;
-        filter: brightness(0.93) drop-shadow(0 0px 2px #1DCD9F44);
-      }
-      .project-arrow-btn#project-arrow-left {
-        left: max(20px, 2vw);
-      }
-      .project-arrow-btn#project-arrow-right {
-        right: max(20px, 2vw);
-      }
-      .project-arrow-svg {
-        display: block;
-        width: 100%;
-        height: 100%;
-        transition: filter 0.18s;
-      }
+      .project-arrow-btn:focus { filter: brightness(0.9) drop-shadow(0 1px 5px #1DCD9F66); }
+
+      /* Move arrows closer to screen edge */
+      #project-arrow-left { left: max(3vw, 12px);}
+      #project-arrow-right { right: max(3vw, 12px);}
+      .project-arrow-svg { display: block; width: 100%; height: 100%; }
+
       .project-arrow-btn:disabled { opacity: 0.4; cursor: default;}
       @media (max-width:900px) {
-        .project-arrow-btn { min-height: 55px; max-height: 120px; width: 34px;}
+        .project-arrow-btn { min-height: 42px; max-height: 95px; width: 28px;}
+        #project-arrow-left, #project-arrow-right { left: 2vw; right: 2vw;}
       }
       @media (max-width:700px) {
-        .project-arrow-btn { min-height: 44px; max-height: 64px; width: 25px;}
-        .project-arrow-btn#project-arrow-left { left: 3px; }
-        .project-arrow-btn#project-arrow-right { right: 3px;}
+        .project-arrow-btn { min-height: 28px; max-height: 55px; width: 18px;}
+        #project-arrow-left, #project-arrow-right { left: 2vw; right: 2vw;}
       }
       #projects-carousel-container {
         position: relative;
@@ -101,21 +82,53 @@
         margin-left: auto;
         margin-right: auto;
       }
-      /* Nice card slide animation */
-      .project-card {
+      /* --- Project Card Styles --- */
+      .project-card a.block {
+        display: block;
+      }
+      .project-card img {
+        border-radius: 18px !important;
+        box-shadow: 0 2px 8px #e0e0e0;
+        transition: box-shadow 0.25s, transform 0.22s;
+        background: #fcfcfc;
+      }
+      .project-card img:hover {
+        transform: scale(1.04);
+        box-shadow: 0 8px 20px #1dcd9f28, 0 2px 8px #e0e0e0;
+      }
+      /* Carousel slide transition styles */
+      #projects-carousel {
+        position: relative;
+        overflow: hidden;
+        min-height: 340px;
+      }
+      .carousel-track {
+        display: flex;
+        transition: transform 0.55s cubic-bezier(.63,1.5,.6,.97);
+        will-change: transform;
+      }
+      .carousel-slide {
+        min-width: calc(100% / 3);
+        max-width: calc(100% / 3);
+        box-sizing: border-box;
+        padding: 0 0.6rem;
+        background: transparent;
         opacity: 1;
-        transform: translateX(0);
-        transition: 
-          opacity 0.28s cubic-bezier(.58,-0.12,.39,1.22), 
-          transform 0.44s cubic-bezier(.6,-0.19,.65,1.17);
+        transition: opacity 0.4s;
       }
-      .project-card.slide-left {
+      .carousel-slide-leave {
         opacity: 0;
-        transform: translateX(-85px) scale(0.95);
       }
-      .project-card.slide-right {
-        opacity: 0;
-        transform: translateX(85px) scale(0.95);
+      .carousel-slide-active {
+        opacity: 1;
+      }
+      @media (max-width: 900px) {
+        #projects-carousel { min-height: 250px;}
+        .carousel-slide { padding: 0 0.3rem;}
+      }
+      @media (max-width: 700px) {
+        #projects-carousel { min-height: 180px;}
+        .carousel-slide { padding: 0 0.15rem;}
       }
     </style>
   </head>
@@ -166,9 +179,10 @@
       </div>
     </section>
 
-    <!-- Projects Section (SVG triangle arrows, working carousel) -->
+    <!-- Projects Section: Modern arrows, round card images, SLIDE animation -->
     <section id="projects" class="relative py-20 px-6 overflow-hidden">
-      <div class="relative z-10" id="projects-carousel-container">
+      <div class="relative z-10" id="projects-carousel-container" style="max-width:1200px; margin:0 auto;">
+        <!-- Carousel arrows (left/right), far edge! -->
         <div class="projects-carousel-arrows">
           <button class="project-arrow-btn" id="project-arrow-left" aria-label="Previous Projects">
             <svg class="project-arrow-svg" viewBox="0 0 38 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,17 +195,18 @@
             </svg>
           </button>
         </div>
-        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto" id="projects-carousel">
-          <!-- The project cards will be inserted by JS -->
+        <div class="max-w-6xl mx-auto" style="position:relative;">
+          <div id="projects-carousel">
+            <!-- JS: .carousel-track (flex) with .carousel-slide(s) in it -->
+          </div>
         </div>
         <div class="mt-12 text-center">
-          <a class="bg-[#1DCD9F] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#17b890] transition-all shadow__btn" href="projects.html">
+          <a class="bg-[#1DCD9F] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#17b890] transition-all" href="projects.html">
             See All Projects
           </a>
         </div>
       </div>
     </section>
-
     <!-- Contact Section -->
     <section id="contact-form" class="py-20 px-6">
       <div class="max-w-4xl mx-auto">
@@ -291,76 +306,99 @@
         }
       ];
 
+      const cardsPerView = 3;
       let visibleIdx = 0;
-      let lastDirection = null;
+      let isSliding = false;
 
-      function animateCards(direction) {
-        const cards = document.querySelectorAll("#projects-carousel .project-card");
-        cards.forEach(card => {
-          card.classList.remove("slide-left", "slide-right");
-          void card.offsetWidth; // force reflow
-          if (direction === "left") card.classList.add("slide-right");
-          if (direction === "right") card.classList.add("slide-left");
-        });
+      function createCarouselTrack(container, slideEls, direction) {
+        // Remove previous
+        const oldTrack = container.querySelector('.carousel-track');
+        if (oldTrack) oldTrack.remove();
+
+        // Create the carousel track container
+        const track = document.createElement('div');
+        track.className = 'carousel-track';
+        track.style.transform = 'translateX(0%)';
+
+        // Add slides (these are 2*cardsPerView - 1 for smooth transition, if needed)
+        slideEls.forEach(el => track.appendChild(el));
+        container.appendChild(track);
+
+        // Animate slide-in effect
+        if (direction === 'right') {
+          track.style.transform = 'translateX(-33.333%)';
+          requestAnimationFrame(()=> {
+            track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
+            track.style.transform = 'translateX(0%)';
+          });
+        } else if (direction === 'left') {
+          track.style.transform = 'translateX(33.333%)';
+          requestAnimationFrame(()=> {
+            track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
+            track.style.transform = 'translateX(0%)';
+          });
+        }
       }
 
-      function renderProjectsCarousel(direction = null) {
-        if (direction) animateCards(direction);
-        setTimeout(() => {
-          const grid = document.getElementById('projects-carousel');
-          grid.innerHTML = '';
-          for (let i = 0; i < 3; i++) {
-            const projIdx = (visibleIdx + i + projectsData.length) % projectsData.length;
-            const proj = projectsData[projIdx];
-            const card = document.createElement('div');
-            card.className = "project-card";
-            card.innerHTML = `
-              <a href="${proj.href}" class="block">
-                <img src="${proj.img}" alt="${proj.alt}" class="w-full aspect-square object-cover"/>
+      function getVisibleSlides(startIdx, direction) {
+        let slides = [];
+        // Show current, plus one extra for sliding effect
+        let fakeStart = startIdx;
+        if (direction === 'right') fakeStart = (startIdx - 1 + projectsData.length) % projectsData.length;
+        if (direction === 'left') fakeStart = (startIdx + 1) % projectsData.length;
+        for (let i = 0; i < cardsPerView; i++) {
+          const projIdx = (fakeStart + i) % projectsData.length;
+          const proj = projectsData[projIdx];
+          // Wrap in .carousel-slide
+          const slide = document.createElement('div');
+          slide.className = "carousel-slide";
+          slide.innerHTML = `
+            <div class="project-card h-100 d-flex flex-column" style="background:#fff;">
+              <a href="${proj.href}" class="block flex-shrink-0">
+                <img src="${proj.img}" alt="${proj.alt}" class="w-full object-cover" />
               </a>
-              <div class="p-6">
+              <div class="p-6 flex-grow-1 d-flex flex-column">
                 <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
                 <p class="mb-4">${proj.desc}</p>
-                <a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
+                <div class="mt-auto"><a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a></div>
               </div>
-            `;
-            grid.appendChild(card);
-          }
-        }, direction ? 222 : 0); // Half the transition time for quick flipping
-      }
-
-      function arrowClick(direction) {
-        lastDirection = direction;
-        // Add 'clicked' class for transition
-        const btn = document.getElementById(direction === "left" ? "project-arrow-left" : "project-arrow-right");
-        btn.classList.add("clicked");
-        setTimeout(() => btn.classList.remove("clicked"), 320);
-
-        // Carousel index logic
-        if(direction === "left"){
-          visibleIdx = (visibleIdx - 1 + projectsData.length) % projectsData.length;
-        } else {
-          visibleIdx = (visibleIdx + 1) % projectsData.length;
+            </div>
+          `;
+          slides.push(slide);
         }
-        renderProjectsCarousel(direction);
+        return slides;
       }
 
-      document.getElementById('project-arrow-left').addEventListener('click', function() {
-        arrowClick("left");
+      // Main render
+      function renderProjectsCarousel(direction = null) {
+        const grid = document.getElementById('projects-carousel');
+        let slides = getVisibleSlides(visibleIdx, direction);
+        createCarouselTrack(grid, slides, direction);
+        isSliding = true;
+        setTimeout(()=>{isSliding=false;}, 570);
+      }
+
+      document.getElementById('project-arrow-left').addEventListener('click', function(){
+        if(isSliding) return;
+        visibleIdx = (visibleIdx - 1 + projectsData.length) % projectsData.length;
+        renderProjectsCarousel('left');
       });
 
-      document.getElementById('project-arrow-right').addEventListener('click', function() {
-        arrowClick("right");
+      document.getElementById('project-arrow-right').addEventListener('click', function(){
+        if(isSliding) return;
+        visibleIdx = (visibleIdx + 1) % projectsData.length;
+        renderProjectsCarousel('right');
       });
 
-      // For keyboard accessibility (left/right arrow keys)
-      document.addEventListener('keydown', function(e) {
-        if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") return;
-        if(e.key==="ArrowLeft") arrowClick("left");
-        if(e.key==="ArrowRight") arrowClick("right");
-      });
-
+      // Initial render
       renderProjectsCarousel();
+
+      // Optional: Arrow visibility on <3 projects
+      window.addEventListener('DOMContentLoaded',function(){
+        if(projectsData.length<=cardsPerView){
+          document.querySelector('.projects-carousel-arrows').style.display='none';
+        }
+      });
     </script>
     <script src="script.js"></script>
   </body>
