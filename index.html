@@ -33,38 +33,46 @@
       #about-img { filter: none !important; }
 
       .projects-carousel-arrows {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        pointer-events: none;
-        z-index: 14;
+          position: fixed; /* Change from absolute to fixed */
+          top: 50%;
+          transform: translateY(-50%);
+          width: auto; /* Maintain default width */
+          pointer-events: none;
+          z-index: 14;
       }
+      
       .project-arrow-btn {
-        pointer-events: auto;
-        background: transparent;
-        border: none;
-        outline: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        padding: 0;
-        cursor: pointer;
-        transition: filter 0.18s, background 0.2s;
-        height: 56%;
-        min-height: 60px;
-        max-height: 160px;
-        width: 44px;
-        border-radius: 20px;
+          pointer-events: auto;
+          background: transparent;
+          border: none;
+          outline: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: fixed; /* Change for the button position */
+          top: 50%;
+          transform: translateY(-50%);
+          padding: 0;
+          cursor: pointer;
+          transition: filter 0.18s, background 0.2s;
+          height: 56%;
+          min-height: 60px;
+          max-height: 160px;
+          width: 44px;
+          border-radius: 20px;
+      }
+      
+      #project-arrow-left {
+          left: 20px; /* Adjust as needed */
+      }
+      
+      #project-arrow-right {
+          right: 20px; /* Adjust as needed */
       }
       .project-arrow-btn:active,
       .project-arrow-btn:focus { filter: brightness(0.9) drop-shadow(0 1px 5px #1DCD9F66); }
-      #project-arrow-left { left: 0;}
-      #project-arrow-right { right: 0;}
+      #project-arrow-left { left: 20px;}
+      #project-arrow-right { right: 20px;}
       .project-arrow-svg { display: block; width: 100%; height: 100%; }
 
       .project-arrow-btn:disabled { opacity: 0.4; cursor: default;}
@@ -387,41 +395,33 @@
           if (isSliding) return;
           isSliding = true;
       
-          // Calculate new index and prepare the extra slide for seamless sliding
+          // Distance to slide based on cards per view
+          let slideDistance = `${100 / cardsPerView}%`;
           let newIdx;
           let ghostSlides;
-          let slideDistance = `${100 / cardsPerView}%`;
       
           if (direction === 'right') {
               newIdx = (visibleIdx + 1) % projectsData.length;
-              // Prepare ghost slides
-              ghostSlides = getVisibleSlides(newIdx);
-              createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, 'right', () => {
-                  visibleIdx = newIdx;
-                  renderProjectsCarousel(null, true);
-              });
-      
-              // Animate to the left
-              setTimeout(() => {
-                  document.querySelector('.carousel-track').style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
-                  document.querySelector('.carousel-track').style.transform = `translateX(-${slideDistance})`;
-              }, 10);
+              ghostSlides = getVisibleSlides(newIdx); // Get next visible slides
           } else if (direction === 'left') {
               newIdx = (visibleIdx - 1 + projectsData.length) % projectsData.length;
-              // Prepare ghost slides
-              ghostSlides = getVisibleSlides(newIdx);
-              createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, 'left', () => {
-                  visibleIdx = newIdx;
-                  renderProjectsCarousel(null, true);
-              });
-      
-              // Animate to the right
-              setTimeout(() => {
-                  document.querySelector('.carousel-track').style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
-                  document.querySelector('.carousel-track').style.transform = `translateX(${slideDistance})`;
-              }, 10);
+              ghostSlides = getVisibleSlides(newIdx); // Get previous visible slides
           }
-      }
+      
+          // Create a new track with ghost slides
+          createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, null, () => {
+              // Update the visible index after the transition
+              visibleIdx = newIdx;
+              renderProjectsCarousel(null, true);
+          });
+      
+          // Animate based on direction
+          setTimeout(() => {
+              let transformValue = direction === 'right' ? `translateX(-${slideDistance})` : `translateX(${slideDistance})`;
+              document.querySelector('.carousel-track').style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
+              document.querySelector('.carousel-track').style.transform = transformValue;
+          }, 10);
+      }      
       
       // Used for initial render and "after-slide repair"
       function renderProjectsCarousel(direction = null, instant = false) {
