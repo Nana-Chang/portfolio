@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet" />
-    <link rel="icon" href="assets/profile_photo.jpg" type="image/x-icon">
+    <link rel="icon" href="assets/icon.jpg" type="image/x-icon">
     <style>
       body {
         background: #fff !important;
@@ -32,6 +32,55 @@
       a:hover { color: #17b890; }
       /* Remove grayscale hover for profile image on white bg */
       #about-img { filter: none !important; }
+
+      /* Arrows styles for project carousel */
+      .projects-carousel-arrows {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+        z-index: 20;
+        transform: translateY(-50%);
+      }
+      .project-arrow-btn {
+        pointer-events: auto;
+        cursor: pointer;
+        background: #1DCD9F;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.92;
+        font-size: 2em;
+        transition: background 0.2s, opacity 0.2s;
+      }
+      .project-arrow-btn:hover {
+        background: #17b890;
+        opacity: 1;
+      }
+
+      @media (max-width: 900px) {
+        .projects-carousel-arrows .project-arrow-btn { width: 38px; height: 38px; font-size: 1.5em; }
+      }
+      @media (max-width: 600px) {
+        .projects-carousel-arrows .project-arrow-btn { width: 30px; height: 30px; font-size: 1.15em; }
+      }
+      @media (max-width: 900px) {
+        #projects .max-w-6xl { max-width: 100% !important; }
+      }
+      /* Added for proper carousel containment */
+      #projects-carousel-container {
+        position: relative;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
     </style>
   </head>
   <body>
@@ -66,7 +115,7 @@
             Currently studying at the University of British Columbia, <br /> I specialize in biomechanics and instrumentation.
           </p>
           <p class="text-lg leading-relaxed mb-6">
-            I am passionate about integrating cutting-edge technology with healthcare, especially in the areas of rehabilitation, and robotics. My experience spans academic research, engineering design teams, and hands-on prototyping.
+            I am passionate about integrating cutting-edge technology with healthcare, especially in the areas of rehabilitation, and robotics. My experience spans academic research, engineering desig[...]
           </p>
           <p></p>
           <!-- Download Resume Button -->
@@ -83,44 +132,15 @@
 
     <!-- Projects Section -->
     <section id="projects" class="relative py-20 px-6 overflow-hidden">
-      <div class="relative z-10">
-        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          <!-- Project 1 -->
-          <div class="project-card ...">
-            <a href="projects.html#eeg-robot" class="block">
-              <img src="./assets/eeg_robot1.jpg" alt="EEG Controlled Bipedal Robot" class="w-full aspect-square object-cover"/>
-            </a>
-            <div class="p-6">
-              <h3 class="text-2xl font-semibold mb-2">EEG Controlled Bipedal Robot</h3>
-              <p class="mb-4">
-                Optimized structure, 3D printing, and PCB design for robust assistive EEG controlled robotics.
-              </p>
-              <a href="projects.html#eeg-robot" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
-            </div>
-          </div>
-          <!-- Project 2 -->
-          <div class="project-card ...">
-            <a href="projects.html#exoskeleton-sim" class="block">
-              <img src="./assets/exo1.jpg" alt="Exoskeleton Validation with Simulation" class="w-full aspect-square object-cover"/>
-            </a>
-            <div class="p-6">
-              <h3 class="text-2xl font-semibold mb-2">Exoskeleton Validation with Simulation</h3>
-              <p class="mb-4">Validated exoskeleton assistance efficacy by biomechanical simulation, motion capture, and ergonomic optimization.</p>
-              <a href="projects.html#exoskeleton-sim" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
-            </div>
-          </div>
-          <!-- Project 3 -->
-          <div class="project-card ...">
-            <a href="projects.html#sem-segmentation" class="block">
-              <img src="./assets/sem1.jpg" alt="Deep Learning SEM Image Segmentation" class="w-full aspect-square object-cover"/>
-            </a>
-            <div class="p-6">
-              <h3 class="text-2xl font-semibold mb-2">Deep Learning SEM Image Segmentation </h3>
-              <p class="mb-4">Automate the segmentation of types of lacunae in trabecular bone SEM images with deep learning. </p>
-              <a href="projects.html#sem-segmentation" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
-            </div>
-          </div>
-          <!-- Add more projects as needed -->
+      <div class="relative z-10" id="projects-carousel-container">
+        <!-- Carousel arrows (left/right) -->
+        <div class="projects-carousel-arrows">
+          <button class="project-arrow-btn" id="project-arrow-left" aria-label="Previous Projects">&#8592;</button>
+          <button class="project-arrow-btn" id="project-arrow-right" aria-label="Next Projects">&#8594;</button>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto" id="projects-carousel">
+          <!-- The project cards will be inserted by JS -->
         </div>
         <div class="mt-12 text-center">
           <a class="bg-[#1DCD9F] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#17b890] transition-all" href="projects.html">
@@ -185,6 +205,90 @@
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Carousel Logic for Project Section
+      // Don't change the project card HTML structure; update here for JS
+      const projectsData = [
+        {
+          href: "projects.html#eeg-robot",
+          img: "./assets/eeg_robot1.jpg",
+          alt: "EEG Controlled Bipedal Robot",
+          title: "EEG Controlled Bipedal Robot",
+          desc: "Optimized structure, 3D printing, and PCB design for robust assistive EEG controlled robotics.",
+          detailsHref: "projects.html#eeg-robot"
+        },
+        {
+          href: "projects.html#exoskeleton-sim",
+          img: "./assets/exo2.jpg",
+          alt: "Exoskeleton Validation with Simulation",
+          title: "Exoskeleton Validation with Simulation",
+          desc: "Validated exoskeleton assistance efficacy by biomechanical simulation, motion capture, and ergonomic optimization.",
+          detailsHref: "projects.html#exoskeleton-sim"
+        },
+        {
+          href: "projects.html#sem-segmentation",
+          img: "./assets/sem1.jpg",
+          alt: "Deep Learning SEM Image Segmentation",
+          title: "Deep Learning SEM Image Segmentation",
+          desc: "Automate the segmentation of types of lacunae in trabecular bone SEM images with deep learning.",
+          detailsHref: "projects.html#sem-segmentation"
+        },
+        // Additional project examples:
+        {
+          href: "projects.html#prosthetic-hand",
+          img: "./assets/prosthetic1.jpg",
+          alt: "Robotic Prosthetic Hand",
+          title: "Robotic Prosthetic Hand",
+          desc: "Design and fabrication of a multi-articulating open source prosthetic hand.",
+          detailsHref: "projects.html#prosthetic-hand"
+        },
+        {
+          href: "projects.html#biosignal-glove",
+          img: "./assets/glove1.jpg",
+          alt: "Biosignal Capture Glove",
+          title: "Biosignal Capture Glove",
+          desc: "Wearable glove for hand movement tracking and biosignal analysis.",
+          detailsHref: "projects.html#biosignal-glove"
+        }
+      ];
+
+      let visibleIdx = 0; // Start index for visible projects
+
+      function renderProjectsCarousel() {
+        const grid = document.getElementById('projects-carousel');
+        grid.innerHTML = ''; // Reset grid
+        for (let i = 0; i < 3; i++) {
+          const projIdx = (visibleIdx + i) % projectsData.length;
+          const proj = projectsData[projIdx];
+          const card = document.createElement('div');
+          card.className = "project-card";
+          card.innerHTML = `
+            <a href="${proj.href}" class="block">
+              <img src="${proj.img}" alt="${proj.alt}" class="w-full aspect-square object-cover"/>
+            </a>
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
+              <p class="mb-4">${proj.desc}</p>
+              <a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
+            </div>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      document.getElementById('project-arrow-left').addEventListener('click', function(){
+        visibleIdx = (visibleIdx-1+projectsData.length)%projectsData.length;
+        renderProjectsCarousel();
+      });
+
+      document.getElementById('project-arrow-right').addEventListener('click', function(){
+        visibleIdx = (visibleIdx+1)%projectsData.length;
+        renderProjectsCarousel();
+      });
+
+      // Render carousel on load
+      renderProjectsCarousel();
+    </script>
     <script src="script.js"></script>
   </body>
 </html>
