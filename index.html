@@ -32,7 +32,6 @@
       a:hover { color: #17b890; }
       #about-img { filter: none !important; }
 
-      /* --- Projects Carousel Arrow Styles --- */
       .projects-carousel-arrows {
         position: absolute;
         top: 0;
@@ -64,8 +63,6 @@
       }
       .project-arrow-btn:active,
       .project-arrow-btn:focus { filter: brightness(0.9) drop-shadow(0 1px 5px #1DCD9F66); }
-
-      /* Move arrows right to edge of screen */
       #project-arrow-left { left: 0;}
       #project-arrow-right { right: 0;}
       .project-arrow-svg { display: block; width: 100%; height: 100%; }
@@ -85,21 +82,37 @@
         margin-left: auto;
         margin-right: auto;
       }
-      /* --- Project Card Styles --- */
+
+      /* Project Card & Image Style for square images */
       .project-card a.block {
         display: block;
       }
-      .project-card img {
+      .project-card__img-wrap {
+        width: 100%;
+        aspect-ratio: 1/1;
+        background: #fcfcfc;
+        overflow: hidden;
         border-radius: 18px !important;
+        margin-bottom: 0.5em;
         box-shadow: 0 2px 8px #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .project-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px !important;
         transition: box-shadow 0.25s, transform 0.22s;
         background: #fcfcfc;
+        display: block;
       }
       .project-card img:hover {
         transform: scale(1.04);
         box-shadow: 0 8px 20px #1dcd9f28, 0 2px 8px #e0e0e0;
       }
-      /* Carousel slide transition styles */
+
       #projects-carousel {
         position: relative;
         overflow: hidden;
@@ -118,12 +131,6 @@
         background: transparent;
         opacity: 1;
         transition: opacity 0.4s;
-      }
-      .carousel-slide-leave {
-        opacity: 0;
-      }
-      .carousel-slide-active {
-        opacity: 1;
       }
       @media (max-width: 900px) {
         #projects-carousel { min-height: 250px;}
@@ -312,54 +319,55 @@
       const cardsPerView = 3;
       let visibleIdx = 0;
       let isSliding = false;
+      let lastDirection = null;
 
-      function createCarouselTrack(container, slideEls, direction) {
-        // Remove previous
+      function createCarouselTrack(container, slides, direction, cb) {
+        // Remove previous track
         const oldTrack = container.querySelector('.carousel-track');
         if (oldTrack) oldTrack.remove();
 
-        // Create the carousel track container
+        // Create carousel track
         const track = document.createElement('div');
         track.className = 'carousel-track';
-        track.style.transform = 'translateX(0%)';
 
-        // Add slides (these are 2*cardsPerView - 1 for smooth transition, if needed)
-        slideEls.forEach(el => track.appendChild(el));
+        // Insert slides
+        slides.forEach(el => track.appendChild(el));
         container.appendChild(track);
 
-        // Animate slide-in effect
-        // FIX: Arrow associated sliding direction
+        // Animate
         if (direction === 'right') {
           track.style.transform = 'translateX(33.333%)';
-          requestAnimationFrame(()=> {
+          requestAnimationFrame(() => {
             track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
             track.style.transform = 'translateX(0%)';
           });
         } else if (direction === 'left') {
           track.style.transform = 'translateX(-33.333%)';
-          requestAnimationFrame(()=> {
+          requestAnimationFrame(() => {
             track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
             track.style.transform = 'translateX(0%)';
           });
         }
+        track.addEventListener('transitionend', function handler() {
+          isSliding = false; // Allow sliding again
+          track.removeEventListener('transitionend', handler);
+          if (typeof cb === "function") cb();
+        });
       }
 
-      function getVisibleSlides(startIdx, direction) {
+      function getVisibleSlides(startIdx) {
         let slides = [];
-        // Show current, plus one extra for sliding effect
-        let fakeStart = startIdx;
-        if (direction === 'right') fakeStart = (startIdx + 1) % projectsData.length;
-        if (direction === 'left') fakeStart = (startIdx - 1 + projectsData.length) % projectsData.length;
         for (let i = 0; i < cardsPerView; i++) {
-          const projIdx = (fakeStart + i) % projectsData.length;
+          const projIdx = (startIdx + i) % projectsData.length;
           const proj = projectsData[projIdx];
-          // Wrap in .carousel-slide
           const slide = document.createElement('div');
           slide.className = "carousel-slide";
           slide.innerHTML = `
             <div class="project-card h-100 d-flex flex-column" style="background:#fff;">
               <a href="${proj.href}" class="block flex-shrink-0">
-                <img src="${proj.img}" alt="${proj.alt}" class="w-full object-cover" />
+                <span class="project-card__img-wrap">
+                  <img src="${proj.img}" alt="${proj.alt}" />
+                </span>
               </a>
               <div class="p-6 flex-grow-1 d-flex flex-column">
                 <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
@@ -373,25 +381,101 @@
         return slides;
       }
 
-      // Main render
-      function renderProjectsCarousel(direction = null) {
-        const grid = document.getElementById('projects-carousel');
-        let slides = getVisibleSlides(visibleIdx, direction);
-        createCarouselTrack(grid, slides, direction);
+      function slide(direction) {
+        if (isSliding) return;
         isSliding = true;
-        setTimeout(()=>{isSliding=false;}, 570);
+
+        // Calculate new index and prepare the extra slide for seamless slide
+        let newIdx;
+        let ghostSlides;
+        if (direction === 'right') {
+          newIdx = (visibleIdx + 1) % projectsData.length;
+          // Show slides: [current ...] + 1 extra after
+          ghostSlides = [];
+          for (let i = 0; i < cardsPerView + 1; i++) {
+            const projIdx = (visibleIdx + i) % projectsData.length;
+            const proj = projectsData[projIdx];
+            const slide = document.createElement('div');
+            slide.className = "carousel-slide";
+            slide.innerHTML = `
+              <div class="project-card h-100 d-flex flex-column" style="background:#fff;">
+                <a href="${proj.href}" class="block flex-shrink-0">
+                  <span class="project-card__img-wrap">
+                    <img src="${proj.img}" alt="${proj.alt}" />
+                  </span>
+                </a>
+                <div class="p-6 flex-grow-1 d-flex flex-column">
+                  <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
+                  <p class="mb-4">${proj.desc}</p>
+                  <div class="mt-auto"><a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a></div>
+                </div>
+              </div>
+            `;
+            ghostSlides.push(slide);
+          }
+          createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, null, () => {
+            // After instant jump, update to purely new set
+            visibleIdx = newIdx;
+            renderProjectsCarousel(null, true);
+          });
+          // Animate to left for one slide
+          setTimeout(() => {
+            document.querySelector('.carousel-track').style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
+            document.querySelector('.carousel-track').style.transform = 'translateX(-33.333%)';
+          }, 10);
+        } else if (direction === 'left') {
+          newIdx = (visibleIdx - 1 + projectsData.length) % projectsData.length;
+          // Prepend extra slide before current
+          ghostSlides = [];
+          for (let i = 0; i < cardsPerView + 1; i++) {
+            const projIdx = (newIdx + i) % projectsData.length;
+            const proj = projectsData[projIdx];
+            const slide = document.createElement('div');
+            slide.className = "carousel-slide";
+            slide.innerHTML = `
+              <div class="project-card h-100 d-flex flex-column" style="background:#fff;">
+                <a href="${proj.href}" class="block flex-shrink-0">
+                  <span class="project-card__img-wrap">
+                    <img src="${proj.img}" alt="${proj.alt}" />
+                  </span>
+                </a>
+                <div class="p-6 flex-grow-1 d-flex flex-column">
+                  <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
+                  <p class="mb-4">${proj.desc}</p>
+                  <div class="mt-auto"><a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a></div>
+                </div>
+              </div>
+            `;
+            ghostSlides.push(slide);
+          }
+          createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, null, () => {
+            visibleIdx = newIdx;
+            renderProjectsCarousel(null, true);
+          });
+          // Animate to right for one slide
+          setTimeout(() => {
+            document.querySelector('.carousel-track').style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
+            document.querySelector('.carousel-track').style.transform = 'translateX(33.333%)';
+          }, 10);
+        }
+      }
+
+      // Used for initial render and "after-slide repair"
+      function renderProjectsCarousel(direction = null, instant = false) {
+        const grid = document.getElementById('projects-carousel');
+        let slides = getVisibleSlides(visibleIdx);
+        createCarouselTrack(grid, slides, null);
+        if (!instant) {
+          isSliding = false;
+        }
       }
 
       document.getElementById('project-arrow-left').addEventListener('click', function(){
-        if(isSliding) return;
-        visibleIdx = (visibleIdx - 1 + projectsData.length) % projectsData.length;
-        renderProjectsCarousel('left');
+        slide('left');
       });
 
       document.getElementById('project-arrow-right').addEventListener('click', function(){
-        if(isSliding) return;
-        visibleIdx = (visibleIdx + 1) % projectsData.length;
-        renderProjectsCarousel('right');
+        slide('right');
       });
 
       // Initial render
