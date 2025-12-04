@@ -35,8 +35,11 @@
       /* --- Projects Carousel Arrow Styles --- */
       .projects-carousel-arrows {
         position: absolute;
-        top: 0; left: 0; height: 100%; width: 100%;
-        pointer-events: none; /* only buttons are clickable */
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
         z-index: 14;
       }
       .project-arrow-btn {
@@ -62,19 +65,19 @@
       .project-arrow-btn:active,
       .project-arrow-btn:focus { filter: brightness(0.9) drop-shadow(0 1px 5px #1DCD9F66); }
 
-      /* Move arrows closer to screen edge */
-      #project-arrow-left { left: max(3vw, 12px);}
-      #project-arrow-right { right: max(3vw, 12px);}
+      /* Move arrows right to edge of screen */
+      #project-arrow-left { left: 0;}
+      #project-arrow-right { right: 0;}
       .project-arrow-svg { display: block; width: 100%; height: 100%; }
 
       .project-arrow-btn:disabled { opacity: 0.4; cursor: default;}
       @media (max-width:900px) {
         .project-arrow-btn { min-height: 42px; max-height: 95px; width: 28px;}
-        #project-arrow-left, #project-arrow-right { left: 2vw; right: 2vw;}
+        #project-arrow-left, #project-arrow-right { left: 0; right: 0;}
       }
       @media (max-width:700px) {
         .project-arrow-btn { min-height: 28px; max-height: 55px; width: 18px;}
-        #project-arrow-left, #project-arrow-right { left: 2vw; right: 2vw;}
+        #project-arrow-left, #project-arrow-right { left: 0; right: 0;}
       }
       #projects-carousel-container {
         position: relative;
@@ -325,14 +328,15 @@
         container.appendChild(track);
 
         // Animate slide-in effect
+        // FIX: Arrow associated sliding direction
         if (direction === 'right') {
-          track.style.transform = 'translateX(-33.333%)';
+          track.style.transform = 'translateX(33.333%)';
           requestAnimationFrame(()=> {
             track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
             track.style.transform = 'translateX(0%)';
           });
         } else if (direction === 'left') {
-          track.style.transform = 'translateX(33.333%)';
+          track.style.transform = 'translateX(-33.333%)';
           requestAnimationFrame(()=> {
             track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
             track.style.transform = 'translateX(0%)';
@@ -344,8 +348,8 @@
         let slides = [];
         // Show current, plus one extra for sliding effect
         let fakeStart = startIdx;
-        if (direction === 'right') fakeStart = (startIdx - 1 + projectsData.length) % projectsData.length;
-        if (direction === 'left') fakeStart = (startIdx + 1) % projectsData.length;
+        if (direction === 'right') fakeStart = (startIdx + 1) % projectsData.length;
+        if (direction === 'left') fakeStart = (startIdx - 1 + projectsData.length) % projectsData.length;
         for (let i = 0; i < cardsPerView; i++) {
           const projIdx = (fakeStart + i) % projectsData.length;
           const proj = projectsData[projIdx];
