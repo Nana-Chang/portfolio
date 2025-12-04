@@ -1,190 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio / Nana Chang</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet" />
-    <link rel="icon" href="assets/profile_photo.jpg" type="image/x-icon">
-    <style>
-      body {
-        background: #fff !important;
-        color: #222;
-      }
-      section, .bg-black, .bg-[#0f0f0f] {
-        background: #fff !important;
-        color: #222;
-      }
-      .text-white { color: #222 !important; }
-      .text-black { color: #222 !important; }
-      .bg-white { background: #fff !important; }
-      .bg-black, .bg-[#0f0f0f] { background: #fff !important; }
-      .border, .border-gray-800 { border-color: #e0e0e0 !important; }
-      .shadow-xl, .shadow-lg, .shadow, .hover\:shadow-2xl, .hover\:shadow-xl {
-        box-shadow: 0 2px 8px #eee !important;
-      }
-      .bg-[#1DCD9F] { background: #1DCD9F !important; color: #fff !important; }
-      .text-[#1DCD9F] { color: #1DCD9F !important; }
-      .category-label:hover, .icon-content:hover { color: #1DCD9F !important; }
-      a { color: #1DCD9F; }
-      a:hover { color: #17b890; }
-      /* Remove grayscale hover for profile image on white bg */
-      #about-img { filter: none !important; }
-    </style>
-  </head>
-  <body>
-    <!-- Hero Section -->
-    <section class="position-relative container-fluid min-vh-100 d-flex justify-content-center align-items-center text-white overflow-hidden" style="background-color: #fff">
-      <div id="particles-hero" class="position-absolute w-100 h-100 top-0 start-0" style="z-index: 0"></div>
-      <div class="container text-center position-relative" style="z-index: 1">
-        <h1 class="display-4 fw-bold">
-          <span class="me-2">Hi, I'm</span>
-          <span class="text-success" style="color: #1DCD9F !important;">Nana Chang</span>
-        </h1>
-        <p class="lead mt-3">
-          Biomedical Engineering Student passionate about biomechanics, assistive devices, and research for healthcare impact.<br><br>
-        </p>
-        <a href="#projects" class="shadow__btn mt-4">View Projects</a>
-      </div>
-    </section>
+<head>
+  <meta charset="UTF-8">
+  <title>Nana-Chang Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/icon.jpg" type="image/x-icon">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f3f3f3;
+    }
+    header {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 1em 0;
+      text-align: center;
+    }
+    .projects-section {
+      margin: 40px auto;
+      width: min(900px, 95vw);
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 2em 1em;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .arrow-btn {
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 2em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      opacity: 0.85;
+      transition: opacity 0.15s;
+    }
+    .arrow-btn:hover { opacity: 1; background: #222; }
+    #arrow-left { left: 18px; }
+    #arrow-right { right: 18px; }
 
-    <!-- About Me Section -->
-    <section id="about" class="py-20 px-6">
-      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-10 px-4">
-        <!-- Profile Image -->
-        <div class="flex-shrink-0 w-96 h-96 rounded-xl overflow-hidden shadow-lg" id="about-img">
-          <img src="./assets/profile_photo.jpg" alt="Nana Chang" class="w-full h-full object-cover" />
-        </div>
-        <!-- Text Content -->
-        <div class="max-w-2xl" id="about-text">
-          <h2 class="text-3xl md:text-4xl font-semibold leading-snug mb-4">
-            I'm a <span class="text-[#1DCD9F] font-bold">Biomedical Engineering Student</span>
-          </h2>
-          <p class="text-lg leading-relaxed mb-6">
-            Currently studying at the University of British Columbia, <br /> I specialize in biomechanics and instrumentation.
-          </p>
-          <p class="text-lg leading-relaxed mb-6">
-            I am passionate about integrating cutting-edge technology with healthcare, especially in the areas of rehabilitation, and robotics. My experience spans academic research, engineering design teams, and hands-on prototyping.
-          </p>
-          <p></p>
-          <!-- Download Resume Button -->
-          <div class="flex align-items-center justify-content-center mt-8" style="gap: 50px">
-            <a href="./assets/cv.pdf" download>
-              <button class="bg-[#1DCD9F] text-white px-6 py-2 rounded-lg font-semibold transition hover:bg-[#17b890]">
-                Download CV
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+    .projects-carousel {
+      display: flex;
+      gap: 24px;
+      margin: 0 auto;
+      width: 100%;
+      justify-content: center;
+      min-height: 200px;
+      overflow: hidden;
+    }
+    .project-card {
+      flex: 0 0 calc(33.333% - 16px);
+      background: #fafafa;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      padding: 20px 14px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+      max-width: 250px;
+    }
+    .project-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+      background: #f0f7ff;
+    }
+    .project-title {
+      font-size: 1.15em;
+      margin-bottom: 0.6em;
+      font-weight: bold;
+      color: #2450a2;
+    }
+    .project-desc {
+      font-size: 0.95em;
+      color: #333;
+      margin-bottom: 1em;
+    }
+    .project-link {
+      color: #2450a2;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #2450a2;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: #1d3461; }
+    @media (max-width: 780px) {
+      .projects-carousel { gap: 12px; }
+      .project-card { max-width: 180px; padding: 14px 8px; }
+    }
+    @media (max-width: 600px) {
+      .project-card { max-width: 130px; font-size: 0.9em;}
+      .arrow-btn { width: 32px; height: 32px; font-size: 1.6em;}
+    }
+    @media (max-width: 480px) {
+      .project-card { max-width: 100px; font-size: 0.8em;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nana-Chang's Portfolio</h1>
+  </header>
 
-    <!-- Projects Section -->
-    <section id="projects" class="relative py-20 px-6 overflow-hidden">
-      <div class="relative z-10">
-        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          <!-- Project 1 -->
-          <div class="project-card ...">
-            <a href="projects.html#eeg-robot" class="block">
-              <img src="./assets/eeg_robot1.jpg" alt="EEG Controlled Bipedal Robot" class="w-full aspect-square object-cover"/>
-            </a>
-            <div class="p-6">
-              <h3 class="text-2xl font-semibold mb-2">EEG Controlled Bipedal Robot</h3>
-              <p class="mb-4">
-                Optimized structure, 3D printing, and PCB design for robust assistive EEG controlled robotics.
-              </p>
-              <a href="projects.html#eeg-robot" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
-            </div>
-          </div>
-          <!-- Project 2 -->
-          <div class="project-card ...">
-            <a href="projects.html#exoskeleton-sim" class="block">
-              <img src="./assets/exo1.jpg" alt="Exoskeleton Validation with Simulation" class="w-full aspect-square object-cover"/>
-            </a>
-            <div class="p-6">
-              <h3 class="text-2xl font-semibold mb-2">Exoskeleton Validation with Simulation</h3>
-              <p class="mb-4">Validated exoskeleton assistance efficacy by biomechanical simulation, motion capture, and ergonomic optimization.</p>
-              <a href="projects.html#exoskeleton-sim" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
-            </div>
-          </div>
-          <!-- Project 3 -->
-          <div class="project-card ...">
-            <a href="projects.html#sem-segmentation" class="block">
-              <img src="./assets/sem1.jpg" alt="Deep Learning SEM Image Segmentation" class="w-full aspect-square object-cover"/>
-            </a>
-            <div class="p-6">
-              <h3 class="text-2xl font-semibold mb-2">Deep Learning SEM Image Segmentation </h3>
-              <p class="mb-4">Automate the segmentation of types of lacunae in trabecular bone SEM images with deep learning. </p>
-              <a href="projects.html#sem-segmentation" class="text-[#1DCD9F] font-semibold">Details &rarr;</a>
-            </div>
-          </div>
-          <!-- Add more projects as needed -->
-        </div>
-        <div class="mt-12 text-center">
-          <a class="bg-[#1DCD9F] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#17b890] transition-all" href="projects.html">
-            See All Projects
-          </a>
-        </div>
-      </div>
-    </section>
+  <section class="projects-section">
+    <button class="arrow-btn" id="arrow-left" aria-label="Previous Projects">&#8592;</button>
+    <div class="projects-carousel" id="carousel">
+      <!-- Project cards will be rendered here -->
+    </div>
+    <button class="arrow-btn" id="arrow-right" aria-label="Next Projects">&#8594;</button>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contact-form" class="py-20 px-6">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
-        </div>
-        <div class="grid md:grid-cols-2 gap-10">
-          <div class="space-y-4">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-[#1DCD9F] rounded-full flex items-center justify-center">
-                <i class="fas fa-envelope text-white"></i>
-              </div>
-              <div>
-                <p class="text-sm">Email</p>
-                <a href="mailto:DeliceChangNY@gmail.com">DeliceChangNY@gmail.com</a>
-              </div>
-            </div>
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-[#1DCD9F] rounded-full flex items-center justify-center">
-                <i class="fab fa-linkedin-in text-white"></i>
-              </div>
-              <div>
-                <p class="text-sm">LinkedIn</p>
-                <a href="https://linkedin.com/in/nanachang/" target="_blank" style="color:#1DCD9F;">
-                    linkedin.com/in/nanachang/</a>
-              </div>
-            </div>
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-[#1DCD9F] rounded-full flex items-center justify-center">
-                <i class="fas fa-map-marker-alt text-white"></i>
-              </div>
-              <div>
-                <p class="text-sm">Location</p>
-                <p>Vancouver, BC, Canada</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-[#1DCD9F] rounded-full flex items-center justify-center">
-                <i class="fas fa-clock text-white"></i>
-              </div>
-              <div>
-                <p class="text-sm">Response Time</p>
-                <p>Within 48 hours</p>
-              </div>
-            </div>
-          </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <footer class="text-center py-6 text-sm text-gray-500" style="background:#f7f7f7;">
-      &copy; 2025 Nana Chang. All rights reserved.
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="script.js"></script>
-  </body>
+  <script>
+    // Edit/add your project data here
+    const projects = [
+      {
+        title: "Personal Website",
+        desc: "A modern, responsive personal site built with HTML & CSS.",
+        link: "https://nana-chang.github.io"
+      },
+      {
+        title: "Weather Dashboard",
+        desc: "Weather-focused dashboard using APIs for real-time updates.",
+        link: "https://github.com/Nana-Chang/weather-dashboard"
+      },
+      {
+        title: "Image Gallery",
+        desc: "Beautiful image gallery with interactive search and filter features.",
+        link: "https://github.com/Nana-Chang/image-gallery"
+      },
+      {
+        title: "Portfolio Template",
+        desc: "Open source template for personal portfolios.",
+        link: "https://github.com/Nana-Chang/portfolio-template"
+      },
+      {
+        title: "Task Manager",
+        desc: "Simple task manager app using local storage.",
+        link: "https://github.com/Nana-Chang/task-manager"
+      },
+      {
+        title: "Blog Theme",
+        desc: "A clean blog theme for static websites.",
+        link: "https://github.com/Nana-Chang/blog-theme"
+      }
+    ];
+    let startIdx = 0;
+
+    function renderProjects() {
+      const carousel = document.getElementById('carousel');
+      carousel.innerHTML = '';
+      for (let i = 0; i < 3; i++) {
+        const idx = (startIdx + i) % projects.length;
+        const proj = projects[idx];
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <div class="project-title">${proj.title}</div>
+          <div class="project-desc">${proj.desc}</div>
+          <a class="project-link" href="${proj.link}" target="_blank">View Project</a>
+        `;
+        carousel.appendChild(card);
+      }
+    }
+
+    function prevProjects() {
+      startIdx = (startIdx - 1 + projects.length) % projects.length;
+      renderProjects();
+    }
+
+    function nextProjects() {
+      startIdx = (startIdx + 1) % projects.length;
+      renderProjects();
+    }
+
+    document.getElementById('arrow-left').addEventListener('click', prevProjects);
+    document.getElementById('arrow-right').addEventListener('click', nextProjects);
+
+    renderProjects();
+  </script>
+</body>
 </html>
