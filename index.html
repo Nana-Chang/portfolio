@@ -33,14 +33,17 @@
       #about-img { filter: none !important; }
 
       .projects-carousel-arrows {
-          position: fixed; /* Change from absolute to fixed */
+          position: fixed;
           top: 50%;
+          right: 0;
           transform: translateY(-50%);
-          width: auto; /* Maintain default width */
+          width: auto;
           pointer-events: none;
           z-index: 14;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
       }
-      
       .project-arrow-btn {
           pointer-events: auto;
           background: transparent;
@@ -49,9 +52,6 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          position: fixed; /* Change for the button position */
-          top: 50%;
-          transform: translateY(-50%);
           padding: 0;
           cursor: pointer;
           transition: filter 0.18s, background 0.2s;
@@ -61,21 +61,15 @@
           width: 44px;
           border-radius: 20px;
       }
-
       .project-arrow-btn:active,
       .project-arrow-btn:focus { filter: brightness(0.9) drop-shadow(0 1px 5px #1DCD9F66); }
-      #project-arrow-left { left: 20px;}
-      #project-arrow-right { right: 20px;}
       .project-arrow-svg { display: block; width: 100%; height: 100%; }
-
       .project-arrow-btn:disabled { opacity: 0.4; cursor: default;}
       @media (max-width:900px) {
         .project-arrow-btn { min-height: 42px; max-height: 95px; width: 28px;}
-        #project-arrow-left, #project-arrow-right { left: 0; right: 0;}
       }
       @media (max-width:700px) {
         .project-arrow-btn { min-height: 28px; max-height: 55px; width: 18px;}
-        #project-arrow-left, #project-arrow-right { left: 0; right: 0;}
       }
       #projects-carousel-container {
         position: relative;
@@ -84,7 +78,6 @@
         margin-right: auto;
       }
 
-      /* Project Card & Image Style for square images */
       .project-card a.block {
         display: block;
       }
@@ -175,7 +168,7 @@
             Currently studying at the University of British Columbia, <br /> I specialize in biomechanics and instrumentation.
           </p>
           <p class="text-lg leading-relaxed mb-6">
-            I am passionate about integrating cutting-edge technology with healthcare, especially in the areas of rehabilitation, and robotics. My experience spans academic research, engineering desig[...]
+            I am passionate about integrating cutting-edge technology with healthcare, especially in the areas of rehabilitation, and robotics.
           </p>
           <p></p>
           <!-- Download Resume Button -->
@@ -192,16 +185,11 @@
       </div>
     </section>
 
-    <!-- Projects Section: Modern arrows, round card images, SLIDE animation -->
+    <!-- Projects Section: Only right arrow -->
     <section id="projects" class="relative py-20 px-6 overflow-hidden">
       <div class="relative z-10" id="projects-carousel-container" style="max-width:1200px; margin:0 auto;">
-        <!-- Carousel arrows (left/right), far edge! -->
+        <!-- Single right arrow on edge -->
         <div class="projects-carousel-arrows">
-          <button class="project-arrow-btn" id="project-arrow-left" aria-label="Previous Projects">
-            <svg class="project-arrow-svg" viewBox="0 0 38 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="35,15 3,60 35,105" fill="#1DCD9F" stroke="#1DCD9F" stroke-width="1"/>
-            </svg>
-          </button>
           <button class="project-arrow-btn" id="project-arrow-right" aria-label="Next Projects">
             <svg class="project-arrow-svg" viewBox="0 0 38 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)">
               <polygon points="35,15 3,60 35,105" fill="#1DCD9F" stroke="#1DCD9F" stroke-width="1"/>
@@ -290,7 +278,7 @@
           img: "./assets/exo2.jpg",
           alt: "Exoskeleton Validation with Simulation",
           title: "Exoskeleton Validation with Simulation",
-          desc: "Validated exoskeleton assistance efficacy by biomechanical simulation, motion capture, and ergonomic optimization.",
+          desc: "Validated exoskeleton assistance efficacy by biomechanical simulation from motion capture.",
           detailsHref: "projects.html#exoskeleton-sim"
         },
         {
@@ -322,7 +310,6 @@
       const cardsPerView = 3;
       let visibleIdx = 0;
       let isSliding = false;
-      let lastDirection = null;
 
       function createCarouselTrack(container, slides, direction, cb) {
         // Remove previous track
@@ -333,26 +320,19 @@
         const track = document.createElement('div');
         track.className = 'carousel-track';
 
-        // Insert slides
         slides.forEach(el => track.appendChild(el));
         container.appendChild(track);
 
-        // Animate
+        // Animate for right arrow only
         if (direction === 'right') {
-          track.style.transform = 'translateX(33.333%)';
+          track.style.transform = 'translateX(0%)';
           requestAnimationFrame(() => {
             track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
-            track.style.transform = 'translateX(0%)';
-          });
-        } else if (direction === 'left') {
-          track.style.transform = 'translateX(-33.333%)';
-          requestAnimationFrame(() => {
-            track.style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
-            track.style.transform = 'translateX(0%)';
+            track.style.transform = 'translateX(-33.333%)';
           });
         }
         track.addEventListener('transitionend', function handler() {
-          isSliding = false; // Allow sliding again
+          isSliding = false;
           track.removeEventListener('transitionend', handler);
           if (typeof cb === "function") cb();
         });
@@ -384,81 +364,40 @@
         return slides;
       }
 
-      function slide(direction) {
-          if (isSliding) return;
-          isSliding = true;
-      
-          let newIdx;
-          let ghostSlides;
-      
-          if (direction === 'right') {
-              newIdx = (visibleIdx + 1) % projectsData.length;
-              ghostSlides = [];
-              for (let i = 0; i < cardsPerView + 1; i++) {
-                  const projIdx = (visibleIdx + i) % projectsData.length;
-                  const proj = projectsData[projIdx];
-                  const slide = document.createElement('div');
-                  slide.className = "carousel-slide";
-                  slide.innerHTML = `
-                      <div class="project-card h-100 d-flex flex-column" style="background:#fff;">
-                          <a href="${proj.href}" class="block flex-shrink-0">
-                              <span class="project-card__img-wrap">
-                                  <img src="${proj.img}" alt="${proj.alt}" />
-                              </span>
-                          </a>
-                          <div class="p-6 flex-grow-1 d-flex flex-column">
-                              <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
-                              <p class="mb-4">${proj.desc}</p>
-                              <div class="mt-auto"><a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a></div>
-                          </div>
-                      </div>
-                  `;
-                  ghostSlides.push(slide);
-              }
-              createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, null, () => {
-                  visibleIdx = newIdx;
-                  renderProjectsCarousel(null, true);
-              });
-              setTimeout(() => {
-                  document.querySelector('.carousel-track').style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
-                  document.querySelector('.carousel-track').style.transform = 'translateX(-33.333%)';
-              }, 10);
-          } else if (direction === 'left') {
-              newIdx = (visibleIdx - 1 + projectsData.length) % projectsData.length;
-              ghostSlides = [];
-              for (let i = 0; i < cardsPerView + 1; i++) {
-                  const projIdx = (newIdx + i) % projectsData.length;
-                  const proj = projectsData[projIdx];
-                  const slide = document.createElement('div');
-                  slide.className = "carousel-slide";
-                  slide.innerHTML = `
-                      <div class="project-card h-100 d-flex flex-column" style="background:#fff;">
-                          <a href="${proj.href}" class="block flex-shrink-0">
-                              <span class="project-card__img-wrap">
-                                  <img src="${proj.img}" alt="${proj.alt}" />
-                              </span>
-                          </a>
-                          <div class="p-6 flex-grow-1 d-flex flex-column">
-                              <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
-                              <p class="mb-4">${proj.desc}</p>
-                              <div class="mt-auto"><a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a></div>
-                          </div>
-                      </div>
-                  `;
-                  ghostSlides.push(slide);
-              }
-              createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, null, () => {
-                  visibleIdx = newIdx;
-                  renderProjectsCarousel(null, true);
-              });
-              setTimeout(() => {
-                  document.querySelector('.carousel-track').style.transition = 'transform 0.55s cubic-bezier(.63,1.5,.6,.97)';
-                  document.querySelector('.carousel-track').style.transform = 'translateX(33.333%)';  // Move to the right for proper slide animation
-              }, 10);
-          }
-      }      
-      // Used for initial render and "after-slide repair"
-      function renderProjectsCarousel(direction = null, instant = false) {
+      function slideRight() {
+        if (isSliding) return;
+        isSliding = true;
+
+        let newIdx = (visibleIdx + 1) % projectsData.length;
+        let ghostSlides = [];
+        for (let i = 0; i < cardsPerView + 1; i++) {
+          const projIdx = (visibleIdx + i) % projectsData.length;
+          const proj = projectsData[projIdx];
+          const slide = document.createElement('div');
+          slide.className = "carousel-slide";
+          slide.innerHTML = `
+            <div class="project-card h-100 d-flex flex-column" style="background:#fff;">
+              <a href="${proj.href}" class="block flex-shrink-0">
+                <span class="project-card__img-wrap">
+                  <img src="${proj.img}" alt="${proj.alt}" />
+                </span>
+              </a>
+              <div class="p-6 flex-grow-1 d-flex flex-column">
+                <h3 class="text-2xl font-semibold mb-2">${proj.title}</h3>
+                <p class="mb-4">${proj.desc}</p>
+                <div class="mt-auto"><a href="${proj.detailsHref}" class="text-[#1DCD9F] font-semibold">Details &rarr;</a></div>
+              </div>
+            </div>
+          `;
+          ghostSlides.push(slide);
+        }
+        createCarouselTrack(document.getElementById('projects-carousel'), ghostSlides, 'right', () => {
+          visibleIdx = newIdx;
+          renderProjectsCarousel(true);
+        });
+      }
+
+      function renderProjectsCarousel(instant = false) {
         const grid = document.getElementById('projects-carousel');
         let slides = getVisibleSlides(visibleIdx);
         createCarouselTrack(grid, slides, null);
@@ -467,18 +406,14 @@
         }
       }
 
-      document.getElementById('project-arrow-left').addEventListener('click', function(){
-        slide('left');
-      });
-
       document.getElementById('project-arrow-right').addEventListener('click', function(){
-        slide('right');
+        slideRight();
       });
 
       // Initial render
       renderProjectsCarousel();
 
-      // Optional: Arrow visibility on <3 projects
+      // Optional: Hide arrow if too few projects
       window.addEventListener('DOMContentLoaded',function(){
         if(projectsData.length<=cardsPerView){
           document.querySelector('.projects-carousel-arrows').style.display='none';
