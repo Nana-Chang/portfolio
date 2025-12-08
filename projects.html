@@ -30,14 +30,15 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 140px;
+  height: auto;
+  padding: 1rem 0;
 }
 
 header h1 {
   color: var(--primary);
-  font-size: 2.8rem;
-  font-weight: 900;
-  letter-spacing: 2px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
   margin: 0;
 }
 
@@ -66,7 +67,7 @@ header h1 {
 
 /* Skills row */
 .skills-row {
-  margin: 1rem auto 1.5rem auto;
+  margin: 1rem auto;
   display: flex;
   gap: 1rem;
   justify-content: center;
@@ -77,9 +78,9 @@ header h1 {
   background: var(--accent);
   border: none;
   color: var(--white);
-  padding: 0.45em 1.25em;
-  border-radius: 1.3em;
-  font-size: 1em;
+  padding: 0.3em 1em;
+  border-radius: 1em;
+  font-size: 0.9em;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.18s, color 0.14s;
@@ -88,11 +89,10 @@ header h1 {
   background: var(--primary);
   color: var(--black);
 }
-}
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Change to have 2 projects per row */
+  grid-template-columns: repeat(2, 1fr); /* Two projects per row */
   gap: 2rem 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -113,17 +113,17 @@ header h1 {
   transition: box-shadow 0.18s;
   border: 1.5px solid #eee;
 }
+
 .project-card:hover, .project-card:focus-within {
   box-shadow: 0 8px 32px 0 #00000032;
 }
 
 .card-img {
   width: 100%;
-  height: 100%; /* Change to fill the whole card */
+  height: 200px; /* Fixed height */
   object-fit: cover;
   background: #eee;
   transition: filter 0.35s;
-  display: block;
 }
 
 .card-info {
@@ -131,26 +131,19 @@ header h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60px;
+  min-height: 50px; /* Adjusted for the title */
   position: relative;
   z-index: 2;
-  /* Adjust padding to create space for title */
-  padding: 1.3em 1.5em 0.35em 1.5em;
-  font-weight: bold;
-  transition: color 0.24s;
+  padding: 0.35em; /* Reduced padding */
 }
 
-.card-title {
-  margin: 0;
+.card-title-slide {
   font-size: 1.23em;
-  font-weight: 900;
-  color: var(--black);
-  width: 100%;
+  font-weight: 700;
+  color: var(--accent);
   text-align: center;
-  transition: color 0.18s;
 }
 
-/* Slide up details effect */
 .card-details {
   position: absolute;
   left: 0;
@@ -180,35 +173,6 @@ header h1 {
   pointer-events: auto;
 }
 
-.project-card .card-title-slide {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0; /* Positioning the title at the top */
-  font-size: 1.15em;
-  font-weight: 900;
-  color: var(--primary);
-  text-align: center;
-  padding-bottom: 0.45em;
-  background: var(--white);
-  border-top-left-radius: 2em;
-  border-top-right-radius: 2em;
-  z-index: 5;
-  transition: color 0.23s, background 0.2s;
-}
-
-.card-date {
-  display: block;
-  font-size: 0.95em;
-  color: var(--accent);
-  margin-bottom: 0.2em;
-}
-
-.card-desc-block {
-  margin-top: 2.2em;
-  margin-bottom: 1.3em;
-}
-
 .card-section-label {
   font-weight: 700;
   margin-top: 0.5em;
@@ -218,7 +182,7 @@ header h1 {
 
 .card-summary {
   margin: 0.2em 0 0.9em 0;
-  font-size: 0.9em; /* Font size adjusted for description */
+  font-size: 0.9em;
 }
 
 .card-achievements {
@@ -226,6 +190,7 @@ header h1 {
   font-size: 0.9em; 
   padding-left: 1em;
 }
+
 .card-achievements li {
   margin-bottom: 0.33em;
   font-size: 1em;
@@ -282,6 +247,7 @@ header h1 {
     <h1>Projects</h1>
     <a href="index.html" class="home-btn">Home</a>
     <section class="skills-row" id="skills-row">
+      <button class="skill-btn" onclick="showAllProjects()">All</button>
       <!-- Skill buttons will be populated here -->
     </section>
   </header>
@@ -309,7 +275,7 @@ const projects = [
     title: "Exoskeleton Validation with Simulation",
     images: ["assets/exo1.jpg"],
     summary: "Validated exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
-    scores: { "OpenSim": 10, "MATLAB": 8, "motion capture": 6 },
+    scores: { "OpenSim": 10, "MATLAB": 8, "motion capture": 6 ,"EMG":6, "Metabolic Cost":6},
     achievements: [
       "Processed marker-based motion data from lifting activities to quantify joint kinematics and dynamics.",
       "Simulated the assistance of exoskeleton and analyzed muscle activation reduction.",
@@ -397,7 +363,7 @@ const createProjectCards = (filteredProjects) => {
           </ul>
         </div>
         <div class="card-skills">
-          ${topSkills.map(skill => `<button class="card-skill-btn">${skill}</button>`).join("")}
+          ${topSkills.map(skill => `<button class="card-skill-btn" onclick="filterProjects('${skill}')">${skill}</button>`).join("")}
         </div>
       </div>
     `;
@@ -415,6 +381,11 @@ const filterProjects = (selectedSkill) => {
     return bScore - aScore;
   });
   createProjectCards(sortedFilteredProjects);
+};
+
+// Step 5: Function to show all projects
+const showAllProjects = () => {
+  createProjectCards(projects);
 };
 
 // Initial display of all projects
