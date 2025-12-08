@@ -17,7 +17,7 @@ const projects = [
     title: "Exoskeleton Validation with Simulation",
     images: ["assets/exo1.jpg"],
     summary: "Validated exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
-    scores: { "OpenSim": 10, "MATLAB": 8, "motion capture": 6, "EMG": 6, "Metabolic Cost": 6 , "Prototyping":5 },
+    scores: { "OpenSim": 10, "MATLAB": 8, "Motion capture": 6, "EMG": 6, "Metabolic Cost": 6 , "Prototyping":5 },
     achievements: [
       "Processed marker-based motion data from lifting activities to quantify joint kinematics and dynamics.",
       "Simulated the assistance of exoskeleton and analyzed muscle activation reduction.",
