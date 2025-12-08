@@ -28,10 +28,9 @@ header {
   z-index: 10;
   box-shadow: 0 0 8px #0001;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 90px;
-  position: relative;
+  height: 140px;
 }
 
 header h1 {
@@ -40,17 +39,13 @@ header h1 {
   font-weight: 900;
   letter-spacing: 2px;
   margin: 0;
-  flex: 1 0 0;
-  text-align: center;
-  pointer-events: none;
-  user-select: none;
 }
 
 .home-btn {
   display: block;
   position: absolute;
   right: 38px;
-  top: 26px;
+  top: 20px;
   background: var(--primary);
   color: var(--white);
   border: none;
@@ -71,7 +66,7 @@ header h1 {
 
 /* Skills row */
 .skills-row {
-  margin: 2.2rem auto 1.5rem auto;
+  margin: 1rem auto 1.5rem auto;
   display: flex;
   gap: 1rem;
   justify-content: center;
@@ -79,7 +74,7 @@ header h1 {
 }
 
 .skill-btn {
-  background: var(--primary);
+  background: var(--accent);
   border: none;
   color: var(--white);
   padding: 0.45em 1.25em;
@@ -87,17 +82,17 @@ header h1 {
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 0.3em;
   transition: background 0.18s, color 0.14s;
-  margin-right: 0.2em;
 }
 .skill-btn:hover {
-  background: var(--accent); color: var(--white);
+  background: var(--primary);
+  color: var(--black);
+}
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* Change to have 2 projects per row */
   gap: 2rem 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -124,10 +119,8 @@ header h1 {
 
 .card-img {
   width: 100%;
-  height: 170px;
+  height: 100%; /* Change to fill the whole card */
   object-fit: cover;
-  border-top-left-radius: 2em;
-  border-top-right-radius: 2em;
   background: #eee;
   transition: filter 0.35s;
   display: block;
@@ -141,7 +134,8 @@ header h1 {
   min-height: 60px;
   position: relative;
   z-index: 2;
-  padding: 1.3em 1.5em 1em 1.5em;
+  /* Adjust padding to create space for title */
+  padding: 1.3em 1.5em 0.35em 1.5em;
   font-weight: bold;
   transition: color 0.24s;
 }
@@ -190,7 +184,7 @@ header h1 {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0.85em;
+  top: 0; /* Positioning the title at the top */
   font-size: 1.15em;
   font-weight: 900;
   color: var(--primary);
@@ -224,10 +218,12 @@ header h1 {
 
 .card-summary {
   margin: 0.2em 0 0.9em 0;
+  font-size: 0.9em; /* Font size adjusted for description */
 }
 
 .card-achievements {
   margin: 0.2em 0 0.9em 0;
+  font-size: 0.9em; 
   padding-left: 1em;
 }
 .card-achievements li {
@@ -266,7 +262,7 @@ header h1 {
 
 @media (max-width: 700px) {
   .projects-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr; /* Single column for smaller screens */
   }
   header h1 { font-size: 1.6rem; }
   .home-btn { 
@@ -285,10 +281,10 @@ header h1 {
   <header>
     <h1>Projects</h1>
     <a href="index.html" class="home-btn">Home</a>
+    <section class="skills-row" id="skills-row">
+      <!-- Skill buttons will be populated here -->
+    </section>
   </header>
-  <section class="skills-row" id="skills-row">
-    <!-- Skill buttons will be populated here -->
-  </section>
   <main>
     <div id="projects-container" class="projects-grid">
       <!-- Project cards will be inserted here by JS -->
@@ -299,106 +295,130 @@ const projects = [
   {
     key: "eeg-robot",
     title: "EEG Controlled Bipedal Robot",
-    date: "9/2024 – Present",
     images: ["assets/eeg_robot1.jpg", "assets/eeg_robot2.jpg"],
     summary: "Integrating EEG signals with deep learning for movement classification and precise motor control.",
-    goal: "Integrate EEG signals with a deep learning model for movement classification and precise motor control.",
+    scores: { "3D print": 8, "CAD": 9, "PCB design": 7 },
     achievements: [
       "Optimized robot structure with CAD design through SolidWorks for enhanced stability and mobility.",
       "3D printed components for prototyping.",
       "PCB design for the overcurrent protection circuit, ensuring reliable power management."
-    ],
-    skills: ["3D print", "CAD", "PCB design"]
+    ]
   },
   {
     key: "exoskeleton-sim",
     title: "Exoskeleton Validation with Simulation",
-    date: "5/2025 – Present",
-    images: ["assets/exo2.jpg"],
+    images: ["assets/exo1.jpg"],
     summary: "Validated exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
-    goal: "Validate exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
+    scores: { "OpenSim": 10, "MATLAB": 8, "motion capture": 6 },
     achievements: [
       "Processed marker-based motion data from lifting activities to quantify joint kinematics and dynamics.",
       "Simulated the assistance of exoskeleton and analyzed muscle activation reduction.",
       "Researched and troubleshooted solutions to optimize exoskeleton for ergonomic performance."
-    ],
-    skills: ["OpenSim", "MATLAB", "motion capture"]
+    ]
   },
   {
     key: "swing-footrest",
     title: "Adaptive Swing Footrest for Wheelchair",
-    date: "1/2025 – 4/2025",
     images: ["assets/footrest1.jpg", "assets/footrest2.jpg", "assets/footrest3.jpg"],
     summary: "Designed a footrest mechanism supporting natural leg motion and user comfort.",
-    goal: "Design a footrest mechanism that supports natural leg motion while ensuring stability and user comfort.",
+    scores: { "3D print": 7, "CAD": 8 },
     achievements: [
       "Designed the footrest mechanism using SolidWorks and fabricated components through 3D printing.",
       "Conducted iterative testing and Failure Modes and Effects Analysis.",
       "Integrated material selection and cost analysis to enhance durability, recyclability, and affordability."
-    ],
-    skills: ["3D print", "CAD"]
+    ]
   },
   {
     key: "bracket-gen-design",
     title: "Generative Design of Bracket",
-    date: "4/2025",
     images: ["assets/bracket1.jpg", "assets/bracket2.jpg", "assets/bracket3.jpg"],
     summary: "Redesigned an aircraft bracket for additive manufacturing to reduce weight and waste.",
-    goal: "Redesign a Ti-6Al-4V aircraft bracket for additive manufacturing to reduce weight and material waste.",
+    scores: { "CAD": 10, "3D print": 5 },
     achievements: [
       "Conducted generative design and stress analysis in Fusion 360 under defined load cases.",
       "Selected optimal design based on factor of safety and von Mises stress vs. mass.",
       "Improved printability and reduced waste by optimizing for 3D printing and high-volume production."
-    ],
-    skills: ["CAD"]
+    ]
   }
 ];
 
-// Extract all skills present for skill-buttons row (union unique)
-const allSkillsSet = new Set();
-projects.forEach(p => (p.skills || []).forEach(s => allSkillsSet.add(s)));
-const allSkills = Array.from(allSkillsSet);
+// Step 1: Collect total scores for skills
+const skillScores = {};
+projects.forEach(p => {
+  for (const [skill, score] of Object.entries(p.scores)) {
+    if (!skillScores[skill]) {
+      skillScores[skill] = 0;
+    }
+    skillScores[skill] += score;
+  }
+});
 
+// Step 2: Create skill buttons ordered by the total scores
 const skillsBar = document.getElementById('skills-row');
-allSkills.forEach(skill => {
+const sortedSkills = Object.entries(skillScores).sort((a, b) => b[1] - a[1]);
+
+sortedSkills.forEach(([skill, score]) => {
   const btn = document.createElement('button');
   btn.className = 'skill-btn';
   btn.textContent = skill;
+  btn.onclick = () => filterProjects(skill);
   skillsBar.appendChild(btn);
 });
 
-const projectsContainer = document.getElementById('projects-container');
-projects.forEach(project => {
-  const card = document.createElement('div');
-  card.className = 'project-card';
-  card.tabIndex = 0; // keyboard a11y
+// Step 3: Function to create project cards
+const createProjectCards = (filteredProjects) => {
+  const projectsContainer = document.getElementById('projects-container');
+  projectsContainer.innerHTML = ''; // Clear existing cards
+  filteredProjects.forEach(project => {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.tabIndex = 0; // keyboard a11y
 
-  // Prefer first image, allow fallback
-  const coverImg = project.images && project.images.length > 0 ? project.images[0] : '';
+    const coverImg = project.images && project.images.length > 0 ? project.images[0] : '';
 
-  card.innerHTML = `
-    <img class="card-img" src="${coverImg}" alt="Screenshot of ${project.title}">
-    <div class="card-info">
-      <span class="card-title">${project.title}</span>
-    </div>
-    <div class="card-details">
-      <div class="card-title-slide">${project.title}</div>
-      <div class="card-desc-block">
-        <div class="card-section-label">Goal</div>
-        <div>${project.goal || ""}</div>
-        <div class="card-section-label">Achievements</div>
-        <ul class="card-achievements">
-          ${(project.achievements||[]).map(a => `<li>${a}</li>`).join("")}
-        </ul>
+    // Get the top 3 skills
+    const topSkills = Object.entries(project.scores)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 3)
+      .map(([skill]) => skill);
+
+    card.innerHTML = `
+      <img class="card-img" src="${coverImg}" alt="Screenshot of ${project.title}">
+      <div class="card-info">
+        <div class="card-title-slide">${project.title}</div>
       </div>
-      <div class="card-skills">
-        ${(project.skills||[]).map(skill => `<button class="card-skill-btn">${skill}</button>`).join("")}
+      <div class="card-details">
+        <div class="card-desc-block">
+          <div class="card-section-label">Summary</div>
+          <div class="card-summary">${project.summary || ""}</div>
+          <div class="card-section-label">Achievements</div>
+          <ul class="card-achievements">
+            ${(project.achievements || []).map(a => `<li>${a}</li>`).join("")}
+          </ul>
+        </div>
+        <div class="card-skills">
+          ${topSkills.map(skill => `<button class="card-skill-btn">${skill}</button>`).join("")}
+        </div>
       </div>
-    </div>
-  `;
+    `;
 
-  projectsContainer.appendChild(card);
-});
+    projectsContainer.appendChild(card);
+  });
+}
+
+// Step 4: Function to filter projects based on selected skill
+const filterProjects = (selectedSkill) => {
+  const filteredProjects = projects.filter(project => project.scores[selectedSkill]);
+  const sortedFilteredProjects = filteredProjects.sort((a, b) => {
+    const aScore = a.scores[selectedSkill] || 0; 
+    const bScore = b.scores[selectedSkill] || 0;
+    return bScore - aScore;
+  });
+  createProjectCards(sortedFilteredProjects);
+};
+
+// Initial display of all projects
+createProjectCards(projects);
 </script>
 </body>
 </html>
