@@ -120,7 +120,7 @@ header h1 {
 
 .card-img {
   width: 100%;
-  height: 200px; /* Fixed height */
+  aspect-ratio: 1/1; 
   object-fit: cover;
   background: #eee;
   transition: filter 0.35s;
@@ -348,12 +348,13 @@ const createProjectCards = (filteredProjects) => {
       .slice(0, 3)
       .map(([skill]) => skill);
 
-    card.innerHTML = `
+        card.innerHTML = `
       <img class="card-img" src="${coverImg}" alt="Screenshot of ${project.title}">
       <div class="card-info">
         <div class="card-title-slide">${project.title}</div>
       </div>
       <div class="card-details">
+        <div class="card-title-slide">${project.title}</div> <!-- Moved title here -->
         <div class="card-desc-block">
           <div class="card-section-label">Summary</div>
           <div class="card-summary">${project.summary || ""}</div>
