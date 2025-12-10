@@ -65,7 +65,7 @@ const projects = [
     title: "Automation of Cell Aspiration",
     images: ["assets/aspiration1.jpg", "assets/aspiration2.jpg"],
     summary: "Developed a high precision pressure control device for accurate cell aspiration.",
-    scores: { "Circuit Design": 9, "Arduino": 8 , , "Prototyping":5},
+    scores: { "Circuit Design": 9, "Arduino": 8 , "Prototyping":5},
     achievements: [
       "Designed sensing circuit using instrumentation amplifier and pressure sensor for accurate pressure readings.",
       "Verified and validated prototype through comprehensive mechanical, electrical, and code assessments.",
