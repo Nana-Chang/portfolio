@@ -17,11 +17,34 @@ const projects = [
     title: "Exoskeleton Validation with Simulation",
     images: ["assets/exo1.jpg"],
     summary: "Validated exoskeleton assistance efficacy by analyzing biomechanical load reduction.",
-    scores: { "OpenSim": 10, "MATLAB": 8, "Motion capture": 6, "EMG": 6, "Metabolic Cost": 6 , "Prototyping":5 },
+    scores: { "OpenSim": 10, "MATLAB": 8, "Data Collection": 6 , "Prototyping":5 },
     achievements: [
       "Processed marker-based motion data from lifting activities to quantify joint kinematics and dynamics.",
       "Simulated the assistance of exoskeleton and analyzed muscle activation reduction.",
       "Researched and troubleshooted solutions to optimize exoskeleton for ergonomic performance."
+    ]
+  },
+  {
+    key: "scoliotic-model",
+    title: "Scoliotic OpenSim Model Development",
+    images: ["assets/scoliotic1.jpg"], 
+    summary: "Developed scoliotic OpenSim model from X-ray scan to evaluate asymmetric muscle activation during different locomotion.",
+    scores: { "OpenSim": 10, "MATLAB": 8, "Optimization": 9, "Data Collection": 7 },
+    achievements: [
+      "Created personalized scoliotic OpenSim models from medical imaging data, X-ray scans.",
+      "Ran optimization algorithms to predict muscle activation patterns from EMG and kinematic data.",
+      "Analyzed asymmetric muscle activation during various locomotion activities."
+    ]
+  },
+  {
+    key: "stroke-recovery",
+    title: "Stroke Patient Motor Recovery Analysis",
+    images: ["assets/stroke1.jpg"], 
+    summary: "Collected and processed EMG and kinematic data from stroke patients to predict optimal therapy protocols.",
+    scores: { "Data Collection": 8, "Clinical Assessment": 7 },
+    achievements: [
+      "Collected and processed EMG and kinematic data from stroke patients during therapy sessions.",
+      "Performed comprehensive clinical assessments to evaluate patient motor function and recovery progress."
     ]
   },
   {
